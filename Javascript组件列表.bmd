@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<map name="Javascript组件列表" document_type="Blumind" editor_version="1.3.21.1">
+  <!--Create by Blumind, you can download it free from http://www.blumind.org/download-->
+  <info>
+    <author>jinlo</author>
+    <company>
+    </company>
+    <version>1.0</version>
+  </info>
+  <layout>TREE_RIGHT</layout>
+  <attributes>
+    <item name="editor_show_sidebar">True</item>
+  </attributes>
+  <style>
+    <back_color>White</back_color>
+    <fore_color>Black</fore_color>
+    <line_color>LightSlateGray</line_color>
+    <border_color>SlateGray</border_color>
+    <node_back_color>LightGray</node_back_color>
+    <node_fore_color>Black</node_fore_color>
+    <select_color>RoyalBlue</select_color>
+    <hover_color>MediumSlateBlue</hover_color>
+    <link_line_color>Green</link_line_color>
+  </style>
+  <nodes>
+    <node text="JavaScript组件列表">
+      <style>
+        <back_color>Silver</back_color>
+        <fore_color>Black</fore_color>
+        <border_color>Black</border_color>
+        <padding>12</padding>
+      </style>
+      <nodes>
+        <node text="布局器">
+          <nodes>
+            <node text="左右布局" />
+            <node text="上下布局" />
+          </nodes>
+        </node>
+        <node text="菜单">
+          <nodes>
+            <node text="平铺菜单">
+              <nodes>
+                <node text="下拉菜单" />
+              </nodes>
+            </node>
+            <node text="树形菜单">
+              <nodes>
+                <node text="焦点定位树形菜单" />
+              </nodes>
+            </node>
+            <node text="滑块菜单" />
+            <node text="悬浮弹出菜单" />
+          </nodes>
+        </node>
+        <node text="弹出框">
+          <nodes>
+            <node text="确认框" />
+            <node text="消息框" />
+            <node text="基础弹出框" />
+          </nodes>
+        </node>
+        <node text="表单">
+          <nodes>
+            <node text="Label标签" />
+            <node text="输入框">
+              <nodes>
+                <node text="普通数据框" />
+                <node text="输入框组">
+                  <nodes>
+                    <node text="日期输入框" />
+                    <node text="索引输入框" />
+                  </nodes>
+                </node>
+              </nodes>
+            </node>
+            <node text="按钮">
+              <nodes>
+                <node text="普通按钮" />
+              </nodes>
+            </node>
+            <node text="下拉框" />
+          </nodes>
+        </node>
+      </nodes>
+    </node>
+  </nodes>
+</map>
