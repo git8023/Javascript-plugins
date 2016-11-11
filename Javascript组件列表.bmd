@@ -82,6 +82,13 @@
             <node text="下拉框" />
           </nodes>
         </node>
+        <node text="轮播(slider)">
+          <nodes>
+            <node text="列表组件" />
+            <node text="指示器组件" />
+            <node text="触发器组件" />
+          </nodes>
+        </node>
       </nodes>
     </node>
   </nodes>

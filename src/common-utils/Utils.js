@@ -1,19 +1,24 @@
+/**
+ * 校验工具
+ */
 var Validator = {
   isFunction: function(fn) {return (fn instanceof Function);},
   isNotFunction: function(fn) {return !Validator.isFunction(fn);},
   isArray: function(arr) {return (arr instanceof Array);},
   isNotArray: function(arr) {return !Validator.isArray(arr);},
+  isObject:function(obj){return obj instanceof Object;},
+  isNotObject:function(obj){return !Validator.isObject(obj);},
 };
 
+/**
+ * 通用工具
+ */
 var Utils = {
 
   /**
    * 数组, 对象属性遍历
-   * 
-   * @param obj
-   *          {Array|Object} 目标对象
-   * @param fn
-   *          {Function} 属性处理器; 参数:value,propName; 返回值:false-停止遍历
+   * @param obj {Array|Object} 目标对象
+   * @param fn {Function} 属性处理器; 参数:value,propName; 返回值:false-停止遍历
    */
   each: function(obj, fn) {
     if (Validator.isNotFunction(fn)) return;
@@ -24,11 +29,8 @@ var Utils = {
 
   /**
    * 数组, 对象属性遍历
-   * 
-   * @param obj
-   *          {Array|Object} 目标对象
-   * @param fn
-   *          {Function} 属性处理器; 参数:value,propName; 返回值:false-停止遍历
+   * @param obj {Array|Object} 目标对象
+   * @param fn {Function} 属性处理器; 参数:value,propName; 返回值:false-停止遍历
    */
   eachValue: function(obj, fn) {
     Utils.each(obj, function(v,k){
@@ -38,14 +40,22 @@ var Utils = {
   },
 
   /**
+   * 函数遍历
+   * @param obj {Array|Object} 目标对象
+   * @param fn {Function} 属性处理器; 参数:value,propName; 返回值:false-停止遍历
+   */
+  eachFn: function(obj, fn){
+    Utils.each(obj, function(v,k){
+      if (Validator.isFunction(v))
+        return fn.apply(this, arguments);
+    });
+  },
+
+  /**
    * 分段读取数组
-   * 
-   * @param arr
-   *          {Array} 目标数组
-   * @param length
-   *          {Number} 分段长度, 默认为数组长度
-   * @param fn
-   *          {Function} 分段处理器; 参数:subArr, count; 返回值:false-停止分段
+   * @param arr {Array} 目标数组
+   * @param length {Number} 分段长度, 默认为数组长度
+   * @param fn {Function} 分段处理器; 参数:subArr, count; 返回值:false-停止分段
    */
   limit: function(arr, length, fn) {
     if (Validator.isNotArray(arr) || Validator.isNotFunction(fn)) return;
@@ -67,11 +77,8 @@ var Utils = {
 
   /**
    * 日期格式化
-   * 
-   * @param date
-   *          {Date} 日期对象
-   * @param format
-   *          {String} 格式化规则(yyyyMMddhhmmssS), 默认:"yyyy-MM-dd hh:mm:ss:S"
+   * @param date {Date} 日期对象
+   * @param format {String} 格式化规则(yyyyMMddhhmmssS), 默认:"yyyy-MM-dd hh:mm:ss:S"
    * @returns {String} 格式化日期字符串
    */
   dateFormat: function(date, format) {
@@ -102,6 +109,12 @@ var Utils = {
     return formatter.call(date, format);
   },
 
+  /**
+   * 日期字符串解析
+   * @param dateStr {String} 格式化字符串
+   * @param pattern {String} 日期格式化规则
+   * @returns {Date} 解析成功返回日期对象
+   */
   dateParse: function(dateStr, pattern){
     function parser(dateStr, pattern) {
       var metaPatterns = {
