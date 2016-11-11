@@ -9,17 +9,40 @@
 function Slider($ctnr, debug) {
   if (!(this instanceof arguments.callee)) return new arguments.callee($ctnr);
   var $thisObj  = this,
+      _attrs    = {
+                   speed  : function(){
+                     var speed = _conf.container.attr("slider-speed")-0;
+                     !isNaN(speed) && (0<speed) && (_conf.speed=speed);
+                     return _attrs;
+                   },
+                   pause  : function(){
+                     var pause = _conf.container.attr("slider-pause")-0;
+                     !isNaN(pause) && (0<pause) && (_conf.pause=pause);
+                     return _attrs;
+                   },
+                   scrollOffset  : function(){
+                     var scrollOffset = _conf.container.attr("slider-scroll-offset")-0;
+                     !isNaN(scrollOffset) && (0<=scrollOffset) && (_conf.scrollOffset=scrollOffset);
+                     return _attrs;
+                   },
+                   offsetSpeed    : function(){
+                     var scrollSpeed = _conf.container.attr("slider-offset-speed")-0;
+                     !isNaN(scrollSpeed) && (0<=scrollSpeed) && (_conf.offsetSpeed=scrollSpeed);
+                     return _attrs;
+                   }
+                  },
       _conf     = {
-                    speed         : 800,        // 项切换速度:ms
-                    pause         : 2000,       // 项停留时间:ms
-                    flow          : "left",     // 切换模式: up/down/left/right
-                    fillRule      : "auto",     // 填充规则: auto/width/height
+                    speed         : 700,        // 项切换速度:ms
+                    pause         : 2500,       // 项停留时间:ms
+//                    flow          : "left",     // 切换模式: up/down/left/right
+//                    fillRule      : "auto",     // 填充规则: auto/width/height
                     autoPlay      : false,      // 自动播放: true/false
                     container     : $($ctnr),   // 原始容器
                     currItemCtnr  : null,       // 当前展示的图片
                     banner        : null,       // 横幅容器
-                    scroll_offset : 150,        // 滚动修改缓冲值
-                    offset_speed  : 500,        // 缓冲值修复时长
+                    scrollOffset  : 150,        // 滚动修改缓冲值
+                    offsetSpeed  : 500,        // 缓冲值修复时长
+                    timer         : null,       // 定时器
                   },
       _events   = {
                     completed : null,     // 初始化完成后事件, context:Slider
@@ -65,7 +88,19 @@ function Slider($ctnr, debug) {
       .find("li").addClass(_style.ITEM_CONTAINER)
       .find("img").addClass(_style.ITEM);
 
-    _conf.banner.find("."+_style.ITEM).width(_conf.container.width());
+    // 第一张图片复制一个在最后
+    _conf.banner.find("."+_style.ITEM_CONTAINER+":first")
+      .clone()
+      .appendTo(_conf.banner.find("."+_style.LIST_CONTAINER));
+
+    _conf.banner
+      .find("."+_style.ITEM).width(_conf.container.width())
+      .hover(function(){
+        // 暂停
+        clearInterval(_conf.timer);
+        Validator.isFunction(_events.pause) && _events.pause.call($thisObj);
+      },$thisObj.play);
+
     resetBanner();
     _conf.banner.find("."+_style.ITEM_CONTAINER).each(function(){$(this).attr("offset-left", $(this).offset().left);});
     _conf.currItemCtnr = _conf.banner.find("."+_style.ITEM_CONTAINER+":eq(0)").addClass(_style.CURRENT);
@@ -78,6 +113,13 @@ function Slider($ctnr, debug) {
     return $thisObj;
   };
 
+  /** 从控件中读取配置 */
+  this.conf=function(){
+    _attrs.speed().pause().scrollOffset().offsetSpeed();
+    $thisObj.init().play();
+    return $thisObj;
+  };
+
   /**
    * 开始播放
    * @returns {Slider}
@@ -87,18 +129,19 @@ function Slider($ctnr, debug) {
     if(Validator.isFunction(fn) && (false==fn.call($thisObj)))
       return;
 
-    setInterval(function(){
+    _conf.timer = setInterval(function(){
       scrollToNext();
     }, _conf.pause);
   };
 
   // 滚动至下一个项
   function scrollToNext() {
-    var itemCount = _conf.banner.find("."+_style.ITEM_CONTAINER).size(),
-        currIdx   = _conf.currItemCtnr.index(),
-        lasted    = (currIdx==itemCount-1),
-        nextIdx   = lasted?0:(currIdx+1),
-        offset    = (0==nextIdx)?0:_conf.scroll_offset;
+    var itemCount     = _conf.banner.find("."+_style.ITEM_CONTAINER).size(),
+        currIdx       = _conf.currItemCtnr.index(),
+        lasted        = (currIdx==itemCount-1),
+        nextIdx       = lasted?0:(currIdx+1),
+        offset        = (0==nextIdx)?0:_conf.scrollOffset,
+        bannerOffset  = _conf.banner.offset().left;
     _conf.banner.find("."+_style.CURRENT).removeClass(_style.CURRENT);
 
     // 切换前
@@ -109,9 +152,19 @@ function Slider($ctnr, debug) {
       return;
 
     _conf.banner.animate({
-      scrollLeft  : _conf.currItemCtnr.attr("offset-left") - 0 + offset
+      scrollLeft  : _conf.currItemCtnr.attr("offset-left")-bannerOffset+offset
     }, _conf.speed, function(){
-      _conf.banner.animate({scrollLeft:_conf.banner.scrollLeft() - offset}, _conf.offset_speed, function(){
+
+      _conf.banner.animate({
+        scrollLeft:_conf.banner.scrollLeft()-offset
+      }, _conf.offsetSpeed, function(){
+
+        // 最后一张定位到第一张
+        if ((itemCount-2)==currIdx) {
+          _conf.banner.find("."+_style.CURRENT).removeClass(_style.CURRENT);
+          _conf.currItemCtnr = _conf.banner.find("."+_style.ITEM_CONTAINER+":eq(0)").addClass(_style.CURRENT);
+          _conf.banner.scrollLeft(0);
+        }
 
         // 切换后
         Validator.isFunction(_events.swapped) && _events.swapped.call($thisObj);
@@ -170,3 +223,6 @@ function Slider($ctnr, debug) {
 
   return this;
 }
+(function($){
+  $.fn.slider=function(debug){return new Slider($(this), debug).conf();};
+})(jQuery);
