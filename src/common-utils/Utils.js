@@ -14,17 +14,14 @@ var Validator = {
  * 通用工具
  */
 var Utils = {
-
   /**
    * 数组, 对象属性遍历
    * @param obj {Array|Object} 目标对象
    * @param fn {Function} 属性处理器; 参数:value,propName; 返回值:false-停止遍历
    */
   each: function(obj, fn) {
-    if (Validator.isNotFunction(fn)) return;
-    var v = null;
-    for ( var k in obj)
-      if (false == fn.call(obj, obj[k], k)) break;
+    var v=null;
+    for (var k in obj) if(false==fn.call(obj,obj[k],k))break;
   },
 
   /**

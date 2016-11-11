@@ -1,3 +1,6 @@
+/*
+ * https://github.com/git8023/Javascript-plugins/
+ */
 /**
  * 滑动器事件构建器
  */
@@ -16,17 +19,55 @@ function SliderEventBuilder() {
 
   /**
    * 获取可配置事件名:
-   * completed, swapping, swapped, pause, play
+   * <table border="1">
+   * <tr>
+   *    <th>事件名</th>
+   *    <th>参数</th>
+   *    <th>返回值</th>
+   *    <th>说明</th>
+   * </tr>
+   * <tr>
+   *    <td>completed</td>
+   *    <td>-/-</td>
+   *    <td>-/-</td>
+   *    <td>初始化完成后</td>
+   * </tr>
+   * <tr>
+   *    <td>swapping</td>
+   *    <td>$current,$next</td>
+   *    <td>false-停留在当前项目</td>
+   *    <td>项目切换前</td>
+   * </tr>
+   * <tr>
+   *    <td>swapped</td>
+   *    <td>$current</td>
+   *    <td>-/-</td>
+   *    <td>项目切换后</td>
+   * </tr>
+   * <tr>
+   *    <td>pause</td>
+   *    <td>$current</td>
+   *    <td>-/-</td>
+   *    <td>暂停播放</td>
+   * </tr>
+   * <tr>
+   *    <td>play</td>
+   *    <td>-/-</td>
+   *    <td>-/-</td>
+   *    <td>播放</td>
+   * </tr>
+   * </table>
    * @returns {Object} 可配置事件对象, 配置方式: events.completed(eventHandler);...
    */
   this.events = function(){
-    return {
-        completed : function(fn){return setEvent("completed", fn)},
-        swapping  : function(fn){return setEvent("swapping", fn)},
-        swapped   : function(fn){return setEvent("swapped", fn)},
-        pause     : function(fn){return setEvent("pause", fn)},
-        play      : function(fn){return setEvent("play", fn)}
-    }
+    var es = {
+        completed : function(fn){setEvent("completed", fn); return es;},
+        swapping  : function(fn){setEvent("swapping", fn); return es;},
+        swapped   : function(fn){setEvent("swapped", fn); return es;},
+        pause     : function(fn){setEvent("pause", fn); return es;},
+        play      : function(fn){setEvent("play", fn); return es;}
+    };
+    return es;
   };
 
   /**
@@ -38,7 +79,7 @@ function SliderEventBuilder() {
   function setEvent(eventName, fn){
     if (!(fn instanceof Function)) return;
     var oldFn = events[eventName];
-    events[Name] = fn;
+    events[eventName] = fn;
     return oldFn;
   }
 

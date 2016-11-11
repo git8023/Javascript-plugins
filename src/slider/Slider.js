@@ -1,3 +1,6 @@
+/*
+ * https://github.com/git8023/Javascript-plugins/
+ */
 /**
  * 滑动器, $ctnr>ul>li>img.item
  * @param $ctnr {jQuery} 容器
@@ -11,7 +14,7 @@ function Slider($ctnr, debug) {
                     pause         : 2000,       // 项停留时间:ms
                     flow          : "left",     // 切换模式: up/down/left/right
                     fillRule      : "auto",     // 填充规则: auto/width/height
-                    autoPlay      : true,       // 自动播放: true/false
+                    autoPlay      : false,      // 自动播放: true/false
                     container     : $($ctnr),   // 原始容器
                     currItemCtnr  : null,       // 当前展示的图片
                     banner        : null,       // 横幅容器
@@ -40,11 +43,13 @@ function Slider($ctnr, debug) {
    * @returns {Slider}
    */
   this.registerEvents = function(sliderEventBuilder){
-    if (!(sliderEventBuilder instanceof SliderEventBuilder)) 
-      Utils.eachFn(_events, function(fn,name){
-        var fn = sliderEventBuilder[name];
-        if (Utils.isNotFunction(fn)) fn=function(){};
+    if (sliderEventBuilder instanceof SliderEventBuilder) {
+      var events = sliderEventBuilder.build();
+      Utils.each(_events, function(fn,name){
+        var fn = events[name];
+        Validator.isFunction(fn) && (_events[name]=fn);
       });
+    }
     return $thisObj;
   };
 
@@ -65,6 +70,12 @@ function Slider($ctnr, debug) {
     _conf.banner.find("."+_style.ITEM_CONTAINER).each(function(){$(this).attr("offset-left", $(this).offset().left);});
     _conf.currItemCtnr = _conf.banner.find("."+_style.ITEM_CONTAINER+":eq(0)").addClass(_style.CURRENT);
     _conf.autoPlay && $thisObj.play();
+
+    // 创建完成后事件
+    var fn = _events.completed;
+    Validator.isFunction(fn) && fn.call($thisObj);
+
+    return $thisObj;
   };
 
   /**
@@ -72,6 +83,10 @@ function Slider($ctnr, debug) {
    * @returns {Slider}
    */
   this.play = function(){
+    var fn = _events.play;
+    if(Validator.isFunction(fn) && (false==fn.call($thisObj)))
+      return;
+
     setInterval(function(){
       scrollToNext();
     }, _conf.pause);
@@ -85,11 +100,22 @@ function Slider($ctnr, debug) {
         nextIdx   = lasted?0:(currIdx+1),
         offset    = (0==nextIdx)?0:_conf.scroll_offset;
     _conf.banner.find("."+_style.CURRENT).removeClass(_style.CURRENT);
+
+    // 切换前
+    var oldItem = _conf.currItemCtnr,
+        fn      = _events.swapping;
     _conf.currItemCtnr = _conf.banner.find("."+_style.ITEM_CONTAINER+":eq("+nextIdx+")").addClass(_style.CURRENT);
+    if (Validator.isFunction(fn) && (false==fn.call($thisObj, oldItem, _conf.currItemCtnr)))
+      return;
+
     _conf.banner.animate({
       scrollLeft  : _conf.currItemCtnr.attr("offset-left") - 0 + offset
     }, _conf.speed, function(){
-      _conf.banner.animate({scrollLeft  : _conf.banner.scrollLeft() - offset}, _conf.offset_speed);
+      _conf.banner.animate({scrollLeft:_conf.banner.scrollLeft() - offset}, _conf.offset_speed, function(){
+
+        // 切换后
+        Validator.isFunction(_events.swapped) && _events.swapped.call($thisObj);
+      });
     });
   }
 
