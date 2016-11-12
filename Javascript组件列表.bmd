@@ -31,13 +31,13 @@
         <padding>12</padding>
       </style>
       <nodes>
-        <node text="布局器">
+        <node text="布局器(layout)">
           <nodes>
             <node text="左右布局" />
             <node text="上下布局" />
           </nodes>
         </node>
-        <node text="菜单">
+        <node text="菜单(menu)">
           <nodes>
             <node text="平铺菜单">
               <nodes>
@@ -53,14 +53,14 @@
             <node text="悬浮弹出菜单" />
           </nodes>
         </node>
-        <node text="弹出框">
+        <node text="模态框(dialog)">
           <nodes>
             <node text="确认框" />
             <node text="消息框" />
             <node text="基础弹出框" />
           </nodes>
         </node>
-        <node text="表单">
+        <node text="表单(form)">
           <nodes>
             <node text="Label标签" />
             <node text="输入框">

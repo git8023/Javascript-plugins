@@ -46,7 +46,7 @@ function Slider($ctnr, debug) {
                   },
       _events   = {
                     completed : null,     // 初始化完成后事件, context:Slider
-                    swapping  : null,     // 项切换前事件, context:Slider, parameter:$current,$next
+                    swapping  : null,     // 项切换前事件, context:Slider, parameter:$current,$next, return:false-等待下一轮
                     swapped   : null,     // 项切换后事件, context:Slider, parameter:$current
                     pause     : null,     // 暂停事件, context:Slider, parameter:$current
                     play      : null,     // 播放事件, context:Slider
