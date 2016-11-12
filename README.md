@@ -33,4 +33,5 @@
     $(".slider-container2").slider();
   });
  ```
+ * OO方式使用, 指定监听事件
   
