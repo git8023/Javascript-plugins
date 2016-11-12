@@ -1,6 +1,7 @@
 # Javascript-plugins  
 
-  * [轮播(slider)]('#横幅轮播')
+  * [轮播(slider)]('https://github.com/git8023/Javascript-plugins/blob/master/README.md#横幅轮播')
+  * [表单(form)]('https://github.com/git8023/jQuery-Form-Util')
 
 ## 横幅轮播
  * 仅仅作为展示只用时, 可使用`jQuery`方式加载横幅
