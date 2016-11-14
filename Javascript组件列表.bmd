@@ -89,6 +89,7 @@
             <node text="触发器组件" />
           </nodes>
         </node>
+        <node text="滑动器(Slider)" />
       </nodes>
     </node>
   </nodes>
