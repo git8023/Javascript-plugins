@@ -6,7 +6,7 @@
  * @param $ctnr {jQuery} 容器
  * @param debug {Boolean} true-开启调试模式
  */
-function Slider($ctnr, debug) {
+function Banner($ctnr, debug) {
   if (!(this instanceof arguments.callee)) return new arguments.callee($ctnr);
   var $thisObj  = this,
       _attrs    = {
@@ -62,12 +62,12 @@ function Slider($ctnr, debug) {
 
   /**
    * 事件注册
-   * @param sliderEventBuilder {SliderEventBuilder} 事件构建器
+   * @param bannerEventBuilder {BannerEventBuilder} 事件构建器
    * @returns {Slider}
    */
-  this.registerEvents = function(sliderEventBuilder){
-    if (sliderEventBuilder instanceof SliderEventBuilder) {
-      var events = sliderEventBuilder.build();
+  this.registerEvents = function(bannerEventBuilder){
+    if (bannerEventBuilder instanceof BannerEventBuilder) {
+      var events = bannerEventBuilder.build();
       Utils.each(_events, function(fn,name){
         var fn = events[name];
         Validator.isFunction(fn) && (_events[name]=fn);
@@ -224,5 +224,5 @@ function Slider($ctnr, debug) {
   return this;
 }
 (function($){
-  $.fn.slider=function(debug){return new Slider($(this), debug).conf();};
+  $.fn.banner=function(debug){return new Banner($(this), debug).conf();};
 })(jQuery);

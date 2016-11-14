@@ -1,7 +1,7 @@
 $(function() {
   var el                  = $(".slider-container"),
-      slider              = new Slider(el, true);
-      sliderEventBuilder  = new SliderEventBuilder(),
+      slider              = new Banner(el, true);
+      sliderEventBuilder  = new BannerEventBuilder(),
   sliderEventBuilder
     .completed(function(){
       console.log("completed");
@@ -20,5 +20,5 @@ $(function() {
 });
 
 $(function(){
-  $(".slider-container2").slider();
+  $(".slider-container2").banner();
 });

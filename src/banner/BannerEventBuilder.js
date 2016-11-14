@@ -4,7 +4,7 @@
 /**
  * 滑动器事件构建器
  */
-function SliderEventBuilder() {
+function BannerEventBuilder() {
   if (!(this instanceof arguments.callee)) return new arguments.callee();
   var $thisObj  = this,
       events    = {};
