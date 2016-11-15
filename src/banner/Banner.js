@@ -34,15 +34,14 @@ function Banner($ctnr, debug) {
       _conf     = {
                     speed         : 700,        // 项切换速度:ms
                     pause         : 2500,       // 项停留时间:ms
-//                    flow          : "left",     // 切换模式: up/down/left/right
-//                    fillRule      : "auto",     // 填充规则: auto/width/height
                     autoPlay      : false,      // 自动播放: true/false
                     container     : $($ctnr),   // 原始容器
                     currItemCtnr  : null,       // 当前展示的图片
                     banner        : null,       // 横幅容器
                     scrollOffset  : 150,        // 滚动修改缓冲值
-                    offsetSpeed  : 500,        // 缓冲值修复时长
+                    offsetSpeed   : 500,        // 缓冲值修复时长
                     timer         : null,       // 定时器
+                    indexCtnr     : null,       // 指示器容器
                   },
       _events   = {
                     completed : null,     // 初始化完成后事件, context:Slider
@@ -58,6 +57,9 @@ function Banner($ctnr, debug) {
                     ITEM_CONTAINER  : "slider-item-container",  // (图片)项目容器
                     ITEM            : "slider-item",            // (图片)项目
                     CURRENT         : "slider-item-current",    // 当前展示的项
+                    INDEX_CONTAINER : "slider-index-container", // 指示器容器
+                    INDEX           : "slider-index",           // 指示器
+                    INDEX_CURRENT   : "slider-index-current",   // 当前指示器
                   };
 
   /**
@@ -87,6 +89,28 @@ function Banner($ctnr, debug) {
       .find("ul").addClass(_style.LIST_CONTAINER)
       .find("li").addClass(_style.ITEM_CONTAINER)
       .find("img").addClass(_style.ITEM);
+
+    // 指示器
+    _conf.indexCtnr = $("<div/>").addClass(_style.INDEX_CONTAINER);
+    var $ul = $("<ul/>").appendTo(_conf.indexCtnr);
+    _conf.banner.find("."+_style.ITEM_CONTAINER).each(function(idx){
+      $("<li/>")
+        .addClass(_style.INDEX)
+        .html(idx-0+1)
+        .appendTo($ul)
+        .click(function(){
+          // 暂停
+          var currIdx = $(this).index();
+          clearInterval(_conf.timer);
+          Validator.isFunction(_events.pause) && _events.pause.call($thisObj);
+          scrollToNext(currIdx);
+          actionIndex(currIdx);
+          setTimeout($thisObj.play, _conf.pause);
+        });
+    });
+    _conf
+      .indexCtnr.appendTo(_conf.container)
+      .find("."+_style.INDEX+":eq(0)").addClass(_style.INDEX_CURRENT);
 
     // 第一张图片复制一个在最后
     _conf.banner.find("."+_style.ITEM_CONTAINER+":first")
@@ -129,21 +153,23 @@ function Banner($ctnr, debug) {
     if(Validator.isFunction(fn) && (false==fn.call($thisObj)))
       return;
 
+    if (_conf.timer) clearInterval(_conf.timer);
     _conf.timer = setInterval(function(){
       scrollToNext();
     }, _conf.pause);
   };
 
   // 滚动至下一个项
-  function scrollToNext() {
+  function scrollToNext(_currIdx) {
     var itemCount     = _conf.banner.find("."+_style.ITEM_CONTAINER).size(),
         currIdx       = _conf.currItemCtnr.index(),
         lasted        = (currIdx==itemCount-1),
-        nextIdx       = lasted?0:(currIdx+1),
+        nextIdx       = (lasted?0:(currIdx+1)),
         offset        = (0==nextIdx)?0:_conf.scrollOffset,
         bannerOffset  = _conf.banner.offset().left;
     _conf.banner.find("."+_style.CURRENT).removeClass(_style.CURRENT);
-
+    if (!isNaN(_currIdx)) nextIdx=_currIdx;
+    
     // 切换前
     var oldItem = _conf.currItemCtnr,
         fn      = _events.swapping;
@@ -170,6 +196,18 @@ function Banner($ctnr, debug) {
         Validator.isFunction(_events.swapped) && _events.swapped.call($thisObj);
       });
     });
+
+    actionIndex(nextIdx);
+  }
+
+  // 激活指示器
+  function actionIndex(currIdx){
+    var $li = _conf.indexCtnr.find("li");
+    (currIdx>=$li.size()) && (currIdx=0);
+    (0>currIdx) && (currIdx=$li.size()-1);
+    $li.removeClass(_style.INDEX_CURRENT)
+      .eq(currIdx)
+      .addClass(_style.INDEX_CURRENT);
   }
 
   /**
@@ -208,11 +246,20 @@ function Banner($ctnr, debug) {
       id:"slider"
     }).appendTo($("head"));
 
+    $style.append(createClass("."+_style.TOP_CONTAINER, {"position":"relative"}));
     var topCss = "." + _style.TOP_CONTAINER+",."+_style.TOP_CONTAINER + " ul"+",."+_style.TOP_CONTAINER + " li";
     $style.append(createClass(topCss, {"padding":"0", "margin":"0", "list-style":"none"}));
     $style.append(createClass("."+_style.BANNER_WINDOW, {"overflow":"hidden"}));
     $style.append(createClass("."+_style.LIST_CONTAINER, {"width":"1000%"}));
     $style.append(createClass("."+_style.ITEM_CONTAINER, {"display":"inline"}));
+    $style.append(createClass("."+_style.INDEX_CONTAINER, {"position":"absolute", "buttom":"10px", "width":"100%", "text-align":"center", "bottom":"20px"}));
+    $style.append(createClass("."+_style.INDEX_CONTAINER+" ."+_style.INDEX, {
+      "display":"inline-block", "border":"2px solid rgb(230, 230, 230)", "padding":"5px 10px", 
+      "margin":"5px", "border-radius":"40px", "border":"4px solid #FFF", "background-color":"#FE6362", 
+      "color":"transparent",
+      "cursor":"pointer"
+    }));
+    $style.append(createClass("."+_style.INDEX_CONTAINER+" ."+_style.INDEX_CURRENT, {"background-color":"#FFF", "border-color":"#FE6362"}));
   }
 
   // 创建样式字符串, <style/>内部数据
