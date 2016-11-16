@@ -1,9 +1,11 @@
 # Javascript-plugins 
- * [轮播(slider)](https://github.com/git8023/Javascript-plugins/blob/master/README.md#横幅轮播) 
+ * [轮播(slider)](https://github.com/git8023/Javascript-plugins/blob/master/README.md#横幅轮播)  
  * [表单(form)](https://github.com/git8023/jQuery-Form-Util)  
+ * 布局  
+  * [上下布局(UDLayout)]()  
 
-## 横幅轮播
- * 仅仅作为展示只用时, 可使用`jQuery`方式加载横幅
+## 横幅轮播  
+ * 仅仅作为展示只用时, 可使用`jQuery`方式加载横幅   
  
  属性名 | 属性值 | 说明
  ------ | ----- | -----
@@ -78,3 +80,33 @@
      .play();
  });
  ```
+# 布局管理  
+  * 上下布局(UDLayout)  
+    * 首先引入必要文件  
+      * jQuery   : 1.10+  
+      * util     : Utils.js(本项目)  
+      * UDLayout : UDLayout.js(本项目)       
+    * 
+  * HTML配置
+  ```html
+  <div class="container">
+    <div class="layout-ud-container">
+      <div class="layout-top">
+      </div>
+      <div class="layout-down"></div>
+    </div>
+  </div>
+  ```
+  * JS代码
+  ```javascript
+    $(function(){
+        // 获取布局器
+        var layout = new UDLayout($(".layout-ud-container"), true);
+        // 注册事件, 必须在初始化之前执行
+        layout.registerEvents({completed:function(){console.log(this);}});
+        // 初始化布局器
+        layout.init(0.3);
+    });
+  ```
+  
+ 

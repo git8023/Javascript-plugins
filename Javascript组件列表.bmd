@@ -32,6 +32,9 @@
       </style>
       <nodes>
         <node text="布局器(layout)">
+          <style>
+            <back_color>#8080FF</back_color>
+          </style>
           <nodes>
             <node text="左右布局" />
             <node text="上下布局" />
@@ -61,6 +64,9 @@
           </nodes>
         </node>
         <node text="表单(form)">
+          <style>
+            <back_color>#8080FF</back_color>
+          </style>
           <nodes>
             <node text="Label标签" />
             <node text="输入框">
@@ -83,13 +89,15 @@
           </nodes>
         </node>
         <node text="轮播(slider)">
+          <style>
+            <back_color>#8080FF</back_color>
+          </style>
           <nodes>
             <node text="列表组件" />
             <node text="指示器组件" />
             <node text="触发器组件" />
           </nodes>
         </node>
-        <node text="滑动器(Slider)" />
       </nodes>
     </node>
   </nodes>
