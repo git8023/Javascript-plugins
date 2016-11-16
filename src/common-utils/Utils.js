@@ -4,10 +4,15 @@
 var Validator = {
   isFunction: function(fn) {return (fn instanceof Function);},
   isNotFunction: function(fn) {return !Validator.isFunction(fn);},
+
   isArray: function(arr) {return (arr instanceof Array);},
   isNotArray: function(arr) {return !Validator.isArray(arr);},
+
   isObject:function(obj){return obj instanceof Object;},
   isNotObject:function(obj){return !Validator.isObject(obj);},
+
+  isJQuery:function(obj){return (obj instanceof jQuery);},
+  isNotJQuery:function(obj){return !Validator.isJQuery(obj);},
 };
 
 /**

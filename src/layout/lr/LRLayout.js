@@ -2,27 +2,27 @@
  * https://github.com/git8023/Javascript-plugins/
  */
 /**
- * 上下布局
+ * 左右布局
  * 
  * @param $ctnr {jQuery} 布局器外部容器
  * @param debug {Boolean} true-开启调试模式
  */
-function UDLayout($ctnr, debug) {
+function LRLayout($ctnr, debug) {
   if (Validator.isNotJQuery($ctnr)) throw new Error("Invalid container, must instance of jQuery");
   if (!(this instanceof arguments.callee)) return new arguments.callee($ctnr, debug);
   var $thisObj  = this,
       _conf     = {
-                    ctnr  : $($ctnr),     // 外部容器
-                    $up   : null,         // 顶部容器
-                    $down : null,         // 底部容器
+                    ctnr    : $($ctnr),     // 外部容器
+                    $left   : null,         // 左部容器
+                    $right  : null,         // 右部容器
                   },
       _events   = {
                     completed : null,     // 初始化完成后
                   },
       _styles   = {
-                    CONTAINER       : "layout-ud-container",  // 外部容器
-                    TOP_CONTAINER   : "layout-top",           // 顶部容器
-                    DOWN_CONTAINER  : "layout-down",          // 底部容器
+                    CONTAINER       : "layout-container",  // 外部容器
+                    LEFT_CONTAINER  : "layout-left",          // 左部容器
+                    RIGHT_CONTAINER : "layout-right",         // 右部容器
                   };
 
   /**
@@ -51,36 +51,38 @@ function UDLayout($ctnr, debug) {
 
   /**
    * 布局初始化
-   * @param topHeight {Number} 顶部容器高度; 0.1~1.0之间时使用百分比, 大于1时使用像素单位
+   * @param leftWidth {Number} 顶部容器高度; 0.1~1.0之间时使用百分比, 大于1时使用像素单位
    * @returns {UDLayout}
    */
-  this.init = function(topHeight){
+  this.init = function(leftWidth){
     log("start initial layout");
-    var usePx = (0>topHeight&&topHeight>1),
+    var usePx = (0>leftWidth&&leftWidth>1),
         unit  = usePx?"px":"%",
-        maxH  = (usePx?_conf.ctnr.height():100)-0,
-        uH    = usePx?topHeight:(topHeight*100),
-        dH    = maxH-uH,
+        maxW  = (usePx?_conf.ctnr.width():100)-0,
+        lW    = usePx?leftWidth:(leftWidth*100),
+        rW    = maxW-lW,
         ctnr  = _conf.ctnr.addClass(_styles.CONTAINER);
-    log("top height["+(uH+unit)+"], down height["+(dH+unit)+"]");
+    log("top height["+(lW+unit)+"], down height["+(rW+unit)+"]");
 
-    log("query top container["+_styles.TOP_CONTAINER+"]");
-    _conf.$up = getContainer(ctnr, _styles.TOP_CONTAINER)
-                  .css({
-                    "height"    : uH+unit,
-                    "width"     : "100%",
-                    "display"   : "block",
-                    "overflow"  : "hidden"
-                  });
-
-    log("query top container["+_styles.DOWN_CONTAINER+"]");
-    _conf.$down = getContainer(ctnr, _styles.DOWN_CONTAINER)
+    log("query left container["+_styles.LEFT_CONTAINER+"]");
+    _conf.$left = getContainer(ctnr, _styles.LEFT_CONTAINER)
                     .css({
-                      "height"    : dH+unit,
-                      "width"     : "100%",
-                      "display"   : "block",
+                      "width"     : lW+unit,
+                      "display"   : "inline-block",
+                      "height"    : "100%",
+                      "float"     : "left",
                       "overflow"  : "hidden"
-                    });
+                     });
+
+    log("query right container["+_styles.RIGHT_CONTAINER+"]");
+    _conf.$right = getContainer(ctnr, _styles.RIGHT_CONTAINER)
+                    .css({
+                      "width"     : rW+unit,
+                      "display"   : "inline-block",
+                      "height"    : "100%",
+                      "clear"     : "both",
+                      "overflow"  : "hidden"
+                     });
 
     if (Validator.isFunction(_events.completed)){
       log("invoke completed event function.");
