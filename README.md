@@ -177,5 +177,5 @@
       });
     });
   ```
-  * 样式查看
-  ![](http://www.baidu.com/img/bdlogo.gif )
+  * 效果查看
+  ![](https://github.com/git8023/Javascript-plugins/blob/master/src/layout/demo/layout-test.png )
