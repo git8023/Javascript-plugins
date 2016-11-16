@@ -86,6 +86,7 @@
       * jQuery   : 1.10+  
       * util     : Utils.js(本项目)  
       * UDLayout : UDLayout.js(本项目)   
+ 
   * HTML配置
   ```html
   <div class="container">
