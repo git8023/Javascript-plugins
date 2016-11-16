@@ -82,10 +82,10 @@
  ```
 # 布局管理  
   * 上下布局(UDLayout)  
-    * 首先引入必要文件  
-      * jQuery   : 1.10+  
-      * util     : Utils.js(本项目)  
-      * UDLayout : UDLayout.js(本项目)   
+    首先引入必要文件  
+    * jQuery   : 1.10+  
+    * util     : Utils.js(本项目)  
+    * UDLayout : UDLayout.js(本项目)   
  
   * HTML配置
   ```html
