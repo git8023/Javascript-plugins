@@ -178,4 +178,5 @@
     });
   ```
   * 效果查看
-  ![]( https://github.com/git8023/Javascript-plugins/raw/master/src/layout/demo/layout-test.png )
+  ![](https://raw.githubusercontent.com/git8023/Javascript-plugins/master/src/layout/demo/layout-test.png)
+ 
