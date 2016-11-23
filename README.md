@@ -254,7 +254,7 @@
   boundary | direction{String}[down/up] 移动方向 | -/- | 滑动超出边界外时 
   moving | direction{String}[down/up/stop] 移动方向 | -/- | 滑动超出边界外时 
   slideDown | -/- | -/- | 下拉事件, 至少需要触发boundary事件  
-  slideUp | -/- | -/- | 下拉事件, 至少需要触发boundary事件  
+  slideUp | -/- | -/- | 上拉事件, 至少需要触发boundary事件  
 
   * 事件执行顺序
   
