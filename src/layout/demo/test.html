@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>布局测试</title>
+  <style type="text/css">
+    * {margin: 0; padding: 0; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box;}
+    .ud-container {height: 400px;}
+    .layout-top {background-color: #F00;}
+    .layout-down {background-color: #0F0;}
+    .layout-left {background-color: #FF0;}
+    .layout-right {background-color: #0FF;}
+  </style>
+</head>
+<body>
+
+  <div class="ud-container">
+    <div class="layout-top"></div>
+    <div class="layout-down lr-container">
+        <div class="layout-left"></div>
+        <div class="layout-right"></div>
+    </div>
+  </div>
+
+<script type="text/javascript" src="../../jquery-1.10.2.js"></script>
+<script type="text/javascript" src="../../common-utils/Utils.js"></script>
+<script type="text/javascript" src="../ud/UDLayout.js"></script>
+<script type="text/javascript" src="../lr/LRLayout.js"></script>
+<script type="text/javascript" src="test.js"></script>
+</body>
+</html>
