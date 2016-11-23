@@ -7,23 +7,25 @@
   * [左右布局(UDLayout)](https://github.com/git8023/Javascript-plugins#左右布局)  
   * [布局示例](https://github.com/git8023/Javascript-plugins#布局示例)  
 
-# 横幅轮播
- * 仅仅作为展示之用时, 可使用`jQuery`方式加载横幅     
- 属性名 | 属性值 | 说明     
- ------ | ----- | -----     
- slider-speed | {Number}正整数 | 项切换时间     
- slider-pause | {Number}正整数 | 项停留时间     
- slider-scroll-offset | {Number}正整数 |  项切换时偏移量     
- slider-offset-speed | {Number}正整数 | 偏移量执行时间     
- ```html     
-  <div style="width:50%; margin:10px auto; border:1px solid #F00">     
-    <div class="slider-container2"      
-        style="border:2px solid #DDD; border-radius:5px;"     
-        slider-speed="1000" slider-pause="2500"      
-        slider-scroll-offset="0" slider-offset-speed="0">     
-        <div >     
-          <ul class="">     
-              <li><img src="img/1.jpg"/></li>     
+# 横幅轮播  
+ * 仅仅作为展示之用时, 可使用`jQuery`方式加载横幅  
+ 
+ 属性名 | 属性值 | 说明
+ ------ | ----- | -----
+ slider-speed | {Number}正整数 | 项切换时间  
+ slider-pause | {Number}正整数 | 项停留时间  
+ slider-scroll-offset | {Number}正整数 |  项切换时偏移量  
+ slider-offset-speed | {Number}正整数 | 偏移量执行时间  
+ 
+ ```html
+  <div style="width:50%; margin:10px auto; border:1px solid #F00"> 
+    <div class="slider-container2" 
+        style="border:2px solid #DDD; border-radius:5px;" 
+        slider-speed="1000" slider-pause="2500" 
+        slider-scroll-offset="0" slider-offset-speed="0"> 
+        <div >
+          <ul class=""> 
+              <li><img src="img/1.jpg"/></li> 
               <li><img src="img/2.jpg"/></li>     
               <li><img src="img/3.jpg"/></li>     
               <li><img src="img/4.jpg"/></li>     
@@ -182,6 +184,7 @@
 
 # 滑动增强   
   * HTML准备  
+  
   ```html  
   <div id="wrapper">
     <ul>
@@ -197,17 +200,20 @@
     </ul>
   </div>
   ```
-  * CSS准备  
+  * CSS准备 
+  
   ```css  
   *{margin:0;padding:0;}
   #wrapper {border:1px solid #F00; height:400px; overflow:hidden;}
   ```
-  * 获取IScroll实例  
+  * 获取IScroll实例   
+  
   ```javascript
   // probeType:3, 从v5开始需要指定改值才可监控scroll事件
   var iscroll = new IScroll("#wrapper",{probeType:3});
   ```
-  * 获取增强版实例
+  * 获取增强版实例 
+  
   ```javascript
   var wrapper = new IScrollWrapper(iscroll, 30);
   wrapper.registerEvents({
