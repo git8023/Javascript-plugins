@@ -82,31 +82,6 @@
      .play();
  });
  ```
-## 滑动增强
-  * 定义HTML控件基础  
-  ```html
-  <div id="wrapper">
-    <ul>
-      <li id="down" class="clear"></li>
-      <li>Item 001</li>
-      <li>Item 002</li>
-      <li>Item 003</li>
-      <li>Item 004</li>
-      <li>...</li>
-      <li>Item 098</li>
-      <li>Item 099</li>
-      <li>Item 100</li>
-      <li id="up" class="clear"></li>
-    </ul>
-  </div>
-  ```
-  
-  * 定义展示区域和滑动区域样式
-  ```html
-  *{margin:0;padding:0;}
-  /* 定义可见区域大小, 注意需要遵循IScroll使用规范; 建议设置当前超出样式[overflow:hidden] */
-  #wrapper {border:1px solid #F00; height:400px; overflow:hidden;}
-  ```
 # 上下布局 
   * 首先引入必要文件  
     * jQuery   : 1.10+  
@@ -205,3 +180,64 @@
   * 效果查看
   ![](https://raw.githubusercontent.com/git8023/Javascript-plugins/master/src/layout/demo/layout-test.png)
 
+# 滑动增强
+ * HTML准备
+ ```html
+  <div id="wrapper">
+    <ul>
+      <li id="down" class="clear"></li>
+      <li>Item 001</li>
+      <li>Item 002</li>
+      <li>Item 003</li>
+      <li>...</li>
+      <li>Item 098</li>
+      <li>Item 099</li>
+      <li>Item 100</li>
+      <li id="up" class="clear"></li>
+    </ul>
+  </div>
+ ```
+ * CSS准备
+ ```css
+  *{margin:0;padding:0;}
+  #wrapper {border:1px solid #F00; height:400px; overflow:hidden;}
+ ```
+ * 获取IScroll实例
+ ```javascript
+  // probeType:3, 从v5开始需要指定改值才可监控scroll事件
+  var iscroll = new IScroll("#wrapper",{probeType:3});
+ ```
+ * 获取增强版实例
+ ```javascript
+  var wrapper = new IScrollWrapper(iscroll, 30);
+  wrapper.registerEvents({
+      boundary  : function(direction){// direction{String}[down|up] 移动方向 -/- 滑动超出边界外时 
+        switch(direction) {
+        case "up": 
+          $("#up").html("松开加载更多数据"); break;
+        case "down": 
+          $("#down").html("松开刷新"); break;
+        break;
+        }
+      }, 
+      moving    : function(direction){ // direction{String}[down|up] 移动方向 -/- 移动时执行(包括边界内) 
+        switch(direction) {
+        case "up": 
+          $("#up").html("上拉加载更多数据"); break;
+        case "down": 
+          $("#down").html("下拉刷新"); break;
+        case "stop": 
+          $(".clear").html("");
+        break;
+        }
+      },
+      slideDown : function(){ // -/- -/- 下拉事件, 至少需要触发boundary事件 
+        $("<li/>",{html:++count}).insertAfter($("#down"));
+        this.refresh();
+      },
+      slideUp   : function(){ // -/- -/- 上拉事件, 至少需要触发boundary事件 
+        $("<li/>",{html:++count}).insertBefore($("#up"));
+        this.refresh();
+      }
+    });
+ ```
