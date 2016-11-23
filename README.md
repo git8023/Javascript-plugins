@@ -261,3 +261,7 @@
     * moving(up|down) -> moving(down|up) -> moving(stop)
     * moving(up) -> boundard(up) -> moving(down) -> moving(stop) -> slideUp()
     * moving(down) -> boundard(down) -> moving(up) -> moving(stop) -> slideUp()
+  
+  * 小贴士
+  
+    如果初始内容没有超过视窗容器, 可设置内容容器最小高度[min-height:101%;]
