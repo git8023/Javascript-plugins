@@ -182,7 +182,7 @@
   * 效果查看
   ![](https://raw.githubusercontent.com/git8023/Javascript-plugins/master/src/layout/demo/layout-test.png)
 
-# 滑动增强   
+# 滑动增强(针对[IScroll](https://github.com/cubiq/iscroll)iscroll-probe.js - 5.1.3)
   * HTML准备  
   
   ```html  
@@ -255,3 +255,9 @@
   moving | direction{String}[down/up/stop] 移动方向 | -/- | 滑动超出边界外时 
   slideDown | -/- | -/- | 下拉事件, 至少需要触发boundary事件  
   slideUp | -/- | -/- | 下拉事件, 至少需要触发boundary事件  
+
+  * 事件执行顺序
+  
+    * moving 
+    * moving(up) -> boundard(up) -> moving(stop) -> slideUp()
+    * moving(down) -> boundard(down) -> moving(down) -> slideUp()
