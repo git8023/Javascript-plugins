@@ -180,9 +180,9 @@
   * 效果查看
   ![](https://raw.githubusercontent.com/git8023/Javascript-plugins/master/src/layout/demo/layout-test.png)
 
-# 滑动增强
- * HTML准备
- ```html
+# 滑动增强   
+  * HTML准备  
+  ```html  
   <div id="wrapper">
     <ul>
       <li id="down" class="clear"></li>
@@ -196,19 +196,19 @@
       <li id="up" class="clear"></li>
     </ul>
   </div>
- ```
- * CSS准备
- ```css
+  ```
+  * CSS准备  
+  ```css  
   *{margin:0;padding:0;}
   #wrapper {border:1px solid #F00; height:400px; overflow:hidden;}
- ```
- * 获取IScroll实例
- ```javascript
+  ```
+  * 获取IScroll实例  
+  ```javascript
   // probeType:3, 从v5开始需要指定改值才可监控scroll事件
   var iscroll = new IScroll("#wrapper",{probeType:3});
- ```
- * 获取增强版实例
- ```javascript
+  ```
+  * 获取增强版实例
+  ```javascript
   var wrapper = new IScrollWrapper(iscroll, 30);
   wrapper.registerEvents({
       boundary  : function(direction){// direction{String}[down|up] 移动方向 -/- 滑动超出边界外时 
@@ -240,4 +240,4 @@
         this.refresh();
       }
     });
- ```
+  ```
