@@ -1,9 +1,10 @@
 # Javascript-plugins 
  * [轮播(slider)](https://github.com/git8023/Javascript-plugins/blob/master/README.md#横幅轮播) 
+ * [滑动增强(iscroll-probe-enhance)]()
  * [表单(form)](https://github.com/git8023/jQuery-Form-Util)  
 
 ## 横幅轮播
- * 仅仅作为展示只用时, 可使用`jQuery`方式加载横幅
+ * 仅仅作为展示之用时, 可使用`jQuery`方式加载横幅
  
  属性名 | 属性值 | 说明
  ------ | ----- | -----
@@ -78,3 +79,28 @@
      .play();
  });
  ```
+## 滑动增强
+  * 定义HTML控件基础  
+  ```html
+  <div id="wrapper">
+    <ul>
+      <li id="down" class="clear"></li>
+      <li>Item 001</li>
+      <li>Item 002</li>
+      <li>Item 003</li>
+      <li>Item 004</li>
+      <li>...</li>
+      <li>Item 098</li>
+      <li>Item 099</li>
+      <li>Item 100</li>
+      <li id="up" class="clear"></li>
+    </ul>
+  </div>
+  ```
+  
+  * 定义展示区域和滑动区域样式
+  ```html
+  *{margin:0;padding:0;}
+  /* 定义可见区域大小, 注意需要遵循IScroll使用规范; 建议设置当前超出样式[overflow:hidden] */
+  #wrapper {border:1px solid #F00; height:400px; overflow:hidden;}
+  ```
