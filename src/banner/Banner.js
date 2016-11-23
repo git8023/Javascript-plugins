@@ -1,8 +1,8 @@
 /*
- * https://github.com/git8023/Javascript-plugins/
+ * github: https://github.com/git8023/Javascript-plugins/
  */
 /**
- * 滑动器, $ctnr>ul>li>img.item
+ * 横幅广告, $ctnr>ul>li>img.item
  * @param $ctnr {jQuery} 容器
  * @param debug {Boolean} true-开启调试模式
  */

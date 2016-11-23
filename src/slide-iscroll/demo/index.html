@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="../iscroll-probe.js"></script>
+<script type="text/javascript" src="../iscroll-probe-enhance.js"></script>
+<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+<style type="text/css">
+*{margin:0;padding:0;}
+#wrapper {border:1px solid #F00; height:400px; overflow:hidden;}
+</style>
+</head>
+<body>
+  <div id="wrapper">
+    <ul>
+      <li id="down" class="clear"></li>
+      <li>Item 001</li>
+      <li>Item 002</li>
+      <li>Item 003</li>
+      <li>Item 004</li>
+      <li>Item 005</li>
+      <li>Item 006</li>
+      <li>Item 007</li>
+      <li>Item 008</li>
+      <li>Item 009</li>
+      <li>Item 010</li>
+      <li>Item 011</li>
+      <li>Item 012</li>
+      <li>Item 013</li>
+      <li>Item 014</li>
+      <li>Item 015</li>
+      <li>Item 016</li>
+      <li>Item 017</li>
+      <li>Item 018</li>
+      <li>Item 019</li>
+      <li>Item 020</li>
+      <li>Item 021</li>
+      <li>Item 022</li>
+      <li>Item 023</li>
+      <li>Item 024</li>
+      <li>Item 025</li>
+      <li>Item 026</li>
+      <li>Item 027</li>
+      <li>Item 028</li>
+      <li>Item 029</li>
+      <li>Item 030</li>
+      <li>Item 031</li>
+      <li>Item 032</li>
+      <li>Item 033</li>
+      <li>Item 034</li>
+      <li>Item 035</li>
+      <li>Item 036</li>
+      <li>Item 037</li>
+      <li>Item 038</li>
+      <li>Item 039</li>
+      <li>Item 040</li>
+      <li>Item 041</li>
+      <li>Item 042</li>
+      <li>Item 043</li>
+      <li>Item 044</li>
+      <li>Item 045</li>
+      <li>Item 046</li>
+      <li>Item 047</li>
+      <li>Item 048</li>
+      <li>Item 049</li>
+      <li>Item 050</li>
+      <li>Item 051</li>
+      <li>Item 052</li>
+      <li>Item 053</li>
+      <li>Item 054</li>
+      <li>Item 055</li>
+      <li>Item 056</li>
+      <li>Item 057</li>
+      <li>Item 058</li>
+      <li>Item 059</li>
+      <li>Item 060</li>
+      <li>Item 061</li>
+      <li>Item 062</li>
+      <li>Item 063</li>
+      <li>Item 064</li>
+      <li>Item 065</li>
+      <li>Item 066</li>
+      <li>Item 067</li>
+      <li>Item 068</li>
+      <li>Item 069</li>
+      <li>Item 070</li>
+      <li>Item 071</li>
+      <li>Item 072</li>
+      <li>Item 073</li>
+      <li>Item 074</li>
+      <li>Item 075</li>
+      <li>Item 076</li>
+      <li>Item 077</li>
+      <li>Item 078</li>
+      <li>Item 079</li>
+      <li>Item 080</li>
+      <li>Item 081</li>
+      <li>Item 082</li>
+      <li>Item 083</li>
+      <li>Item 084</li>
+      <li>Item 085</li>
+      <li>Item 086</li>
+      <li>Item 087</li>
+      <li>Item 088</li>
+      <li>Item 089</li>
+      <li>Item 090</li>
+      <li>Item 091</li>
+      <li>Item 092</li>
+      <li>Item 093</li>
+      <li>Item 094</li>
+      <li>Item 095</li>
+      <li>Item 096</li>
+      <li>Item 097</li>
+      <li>Item 098</li>
+      <li>Item 099</li>
+      <li>Item 100</li>
+      <li id="up" class="clear"></li>
+    </ul>
+  </div>
+  
+  <script type="text/javascript">
+  var iscroll, wrapper, count=0;
+  window.onload=function(){
+    iscroll = new IScroll("#wrapper",{
+      probeType:3
+    });
+    wrapper = new IScrollWrapper(iscroll, 30);
+    wrapper.registerEvents({
+      boundary  : function(direction){// direction{String}[down|up] 移动方向 -/- 滑动超出边界外时 
+        switch(direction) {
+        case "up": 
+          $("#up").html("松开加载更多数据"); break;
+        case "down": 
+          $("#down").html("松开刷新"); break;
+        break;
+        }
+      }, 
+      moving    : function(direction){ // direction{String}[down|up] 移动方向 -/- 移动时执行(包括边界内) 
+        switch(direction) {
+        case "up": 
+          $("#up").html("上拉加载更多数据"); break;
+        case "down": 
+          $("#down").html("下拉刷新"); break;
+        case "stop": 
+          $(".clear").html("");
+        break;
+        }
+      },
+      slideDown : function(){ // -/- -/- 下拉事件, 至少需要触发boundary事件 
+        $("<li/>",{html:++count}).insertAfter($("#down"));
+        this.refresh();
+      },
+      slideUp   : function(){ // -/- -/- 上拉事件, 至少需要触发boundary事件 
+        $("<li/>",{html:++count}).insertBefore($("#up"));
+        this.refresh();
+      }
+    });
+  }
+  </script>
+</body>
+</html>
