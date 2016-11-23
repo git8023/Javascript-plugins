@@ -258,6 +258,6 @@
 
   * 事件执行顺序
   
-    * moving 
-    * moving(up) -> boundard(up) -> moving(stop) -> slideUp()
-    * moving(down) -> boundard(down) -> moving(down) -> slideUp()
+    * moving(up|down) -> moving(down|up) -> moving(stop)
+    * moving(up) -> boundard(up) -> moving(down) -> moving(stop) -> slideUp()
+    * moving(down) -> boundard(down) -> moving(up) -> moving(stop) -> slideUp()
