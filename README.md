@@ -247,3 +247,10 @@
       }
     });
   ```
+  * 增强版事件
+
+  事件名|参数|返回值|说明 
+  boundary | direction{String}[down|up] 移动方向 | -/- | 滑动超出边界外时 
+  moving | direction{String}[down|up] 移动方向 | -/- | 滑动超出边界外时 
+  slideDown | -/- | -/- | 下拉事件, 至少需要触发boundary事件  
+  slideUp | -/- | -/- | 下拉事件, 至少需要触发boundary事件  
