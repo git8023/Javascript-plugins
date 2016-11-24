@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+.sidebar-hidden-scroll {overflow:hidden!important;}
+.sidebar,.sidebar * {box-sizing:border-box;-webkit-box-sizing:border-box;-o-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;}
+.sidebar {position:absolute; top:0; left:0; width:100%; height:100%; border:1px solid #F00;}
+.sidebar .sidebar-head {border:1px solid #F00; position:relative; font-size:24px; height:60px; line-height:60px; font-weight:bold;}
+.sidebar .sidebar-head .sidebar-back {border:1px solid #F00; position:absolute; width:60px; text-align:center; cursor:pointer;}
+.sidebar .sidebar-head .sidebar-back:hover {background:#EEE;}
+.sidebar .sidebar-head .sidebar-title-main {border:1px solid #F00; text-align:center; font-size:30px;}
+.sidebar .sidebar-head .sidebar-title-sub {border:1px solid #F00; position:absolute; top:0; right:0; width:30%; text-align:right; padding-right:20px;}
+.sidebar .sidebar-body {border:1px solid #F00;}
+.sidebar .sidebar-footer {border:1px solid #F00;}
+
+.sidebar.right {left:auto; right:0;}
+.sidebar.right .sidebar-back:before {content:">";}
+.sidebar.left {left:0;}
+.sidebar.left .sidebar-back:before {content:"<";}
+.sidebar.up .sidebar-back:before {content:"Λ";}
+.sidebar.down .sidebar-back:before {content:"V";}
