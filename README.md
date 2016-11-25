@@ -93,6 +93,7 @@
     * UDLayout : UDLayout.js(本项目)   
  
   * HTML配置
+  
   ```html
   <div class="container">
     <div class="layout-ud-container">
@@ -102,6 +103,7 @@
   </div>
   ```
   * JS代码
+  
   ```javascript
     $(function(){
         // 获取布局器
@@ -112,6 +114,7 @@
         layout.init(0.3);
     });
   ```
+
 # 左右布局  
   * 首先引入必要文件  
     * jQuery   : 1.10+  
@@ -138,8 +141,11 @@
       layout.init(0.3);
     });
   ```
+  
 # 布局示例
+
   * 先分上下布局, 下部分左右
+  
   ```html
   <style type="text/css">
     * {margin: 0; padding: 0; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box;}
@@ -161,7 +167,9 @@
   <script type="text/javascript" src="../ud/UDLayout.js"></script>
   <script type="text/javascript" src="../lr/LRLayout.js"></script>
   ```
+  
   * 初始化布局
+  
   ```javascript
     $(function(){
       var debug     = true;
@@ -182,6 +190,7 @@
     });
   ```
   * 效果查看
+  
   ![](https://raw.githubusercontent.com/git8023/Javascript-plugins/master/src/layout/demo/layout-test.png)
 
 # 滑动增强(针对[IScroll](https://github.com/cubiq/iscroll)iscroll-probe.js - 5.1.3)
