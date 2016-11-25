@@ -214,6 +214,15 @@ function Sidebar() {
     return $thisObj;
   }
 
+  /**
+   * 隐藏侧边栏
+   * @returns {this}
+   */
+  this.hide = function(){
+    _conf.$hIco.click();
+    return $thisObj;
+  }
+
   // 注册事件
   function registerEvent(){
     _conf.$screen.click(function(){_conf.$hIco.click();});
@@ -293,6 +302,18 @@ function Sidebar() {
     else if("string" == typeof $body) body.load(Utils.getRealUrl($body, !!hasProject));
     return body;
   };
+
+  /**
+   * 重置高度分配
+   * @returns {this}
+   */
+  this.refresh = function(){
+    var maxH    = _conf.$ctnr.height(),
+        topH    = _conf.$head.height(),
+        footerH = _conf.$footer.height();
+    _conf.$body.height(maxH-topH-footerH);
+    return $thisObj;
+  }
 
   return this;
 }
