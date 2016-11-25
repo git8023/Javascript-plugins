@@ -6,6 +6,7 @@
   * [上下布局(UDLayout)](https://github.com/git8023/Javascript-plugins#上下布局)  
   * [左右布局(UDLayout)](https://github.com/git8023/Javascript-plugins#左右布局)  
   * [布局示例](https://github.com/git8023/Javascript-plugins#布局示例)  
+ * [侧边栏 ]
 
 # 横幅轮播  
  * 仅仅作为展示之用时, 可使用`jQuery`方式加载横幅  
@@ -86,9 +87,13 @@
  ```
 # 上下布局 
   * 首先引入必要文件  
+  
     * jQuery   : 1.10+  
+    
     * util     : Utils.js(本项目)  
+    
     * UDLayout : UDLayout.js(本项目)   
+    
  
   * HTML配置
   ```html

@@ -1,7 +1,7 @@
 $(function(){
   $("button").click(function(e){
     e.stopPropagation();
-    var sideBar = new SideBar().init({
+    var sideBar = new Sidebar().init({
       direction : $(this).attr("id"),   // {String} CSS Class样式,  默认值:up-Λ, right->, down-V, left-< 侧边栏所在的方向 
       closeIco  : "sidebar-back-ico",   // {String} up/right/button/left 关闭按钮图标样式 
       mainTitle : "Main Title",         // {String|jQuery|DOM} any 主标题 

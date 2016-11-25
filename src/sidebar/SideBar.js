@@ -2,7 +2,7 @@
  * 侧边栏, 一个对象代表一个侧边栏
  * @returns {SideBar}
  */
-function SideBar() {
+function Sidebar() {
   if (!(this instanceof arguments.callee)) return new arguments.callee();
   var $thisObj  = this,
       _conf     = {
