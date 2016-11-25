@@ -277,6 +277,7 @@
     * SideBar.js(本项目)
 
   * 通过javascript代码初始化侧边栏
+
   ```javascript
   // 获取侧边栏实例对象
   var sidebar = new Sidebar();
@@ -310,3 +311,21 @@
   subTitle | {String | jQuery} | -/- | 副标题
   width | {Number} | 0.1~1.0之间时使用百分比, 否则使用像素单位 | 左右侧边栏作为宽度, 上下侧边栏作为高度
   speed | {Number} | 正整数 | 动画执行时间
+  
+  * 可用方法 
+  
+  方法名 | 参数 | 返回值 | 说明
+  -----|----|----|----
+  init | 参考配置说明 |{Sidebar}| 初始化配置 |
+  show | -/- |{Sidebar}|显示侧边栏
+  registerEvents|参考事件说明|{Sidebar}|注册事件
+
+  * 事件说明
+
+  事件名|参数|返回值|说明
+  ----|----|----|----
+opening|-/-|{Boolean} false-阻止打开|侧边栏打开前 
+opened|-/-|-/-|侧边栏打开后 
+closing|-/-|{Boolean} false-阻止关闭|侧边栏关闭前 
+closed|-/-|-/-|侧边栏关闭后 
+
