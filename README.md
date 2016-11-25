@@ -302,10 +302,10 @@
   
   * 配置说明
   属性名 | 类型 | 范围 | 说明
-  ------|---|---|---
-  direction|{String}|top/right/bottom/left|侧边栏所在的方向
-  closeIco|{String|jQuery}|-/-|图标
-  mainTitle|{String|jQuery}|-/-|主标题
-  subTitle|{String|jQuery}|-/-|副标题
-  width|{Number}|0.1~1.0之间时使用百分比, 否则使用像素单位|左右侧边栏作为宽度, 上下侧边栏作为高度
-  speed|{Number}|正整数|动画执行时间
+ ------| ---- | ---- | ----
+  direction | {String}  |  top/right/bottom/left | 侧边栏所在的方向
+  closeIco  |  {String|jQuery} | -/- | 图标
+  mainTitle  |  {String|jQuery} | -/- | 主标题
+  subTitle | {String | jQuery} | -/- | 副标题
+  width | {Number} | 0.1~1.0之间时使用百分比, 否则使用像素单位 | 左右侧边栏作为宽度, 上下侧边栏作为高度
+  speed | {Number} | 正整数 | 动画执行时间
