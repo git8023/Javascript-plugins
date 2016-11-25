@@ -3,10 +3,10 @@
  * [滑动增强(iscroll-probe-enhance)](https://github.com/git8023/Javascript-plugins/blob/master/README.md#滑动增强)
  * [表单(form)](https://github.com/git8023/jQuery-Form-Util)  
  * 布局  
-  * [上下布局(UDLayout)](https://github.com/git8023/Javascript-plugins#上下布局)  
-  * [左右布局(UDLayout)](https://github.com/git8023/Javascript-plugins#左右布局)  
-  * [布局示例](https://github.com/git8023/Javascript-plugins#布局示例)  
- * [侧边栏 ]
+    * [上下布局(UDLayout)](https://github.com/git8023/Javascript-plugins#上下布局)  
+    * [左右布局(UDLayout)](https://github.com/git8023/Javascript-plugins#左右布局)  
+    * [布局示例](https://github.com/git8023/Javascript-plugins#布局示例)  
+ * [侧边栏 (Sidebar)](https://github.com/git8023/Javascript-plugins#侧边栏 )
 
 # 横幅轮播  
  * 仅仅作为展示之用时, 可使用`jQuery`方式加载横幅  
@@ -63,37 +63,34 @@
  swapped | $current {jQuery} - 当前展示的项 | -/- | 项切换完成后
  pause | $current {jQuery} - 当前展示的项 | -/- | 鼠标悬停暂停时
  play | -/- | -/- | 鼠标离开后
- ```javascript
- $(function() {
-   var el                  = $(".slider-container"),
-       slider              = new Slider(el, true);
-       sliderEventBuilder  = new SliderEventBuilder(),
-   sliderEventBuilder
-     .completed(function(){
-       console.log("completed");
-     }).play(function(){
-       console.log("play:");
-     }).swapping(function($curr, $next){
-       console.log("swapping:");
-     }).swapped(function($curr){
-       console.log("swapped:");
-     });
+  ```javascript
+  $(function() {
+    var el                  = $(".slider-container"),
+        slider              = new Slider(el, true);
+        sliderEventBuilder  = new SliderEventBuilder(),
+    sliderEventBuilder
+      .completed(function(){
+        console.log("completed");
+      }).play(function(){
+        console.log("play:");
+      }).swapping(function($curr, $next){
+        console.log("swapping:");
+      }).swapped(function($curr){
+        console.log("swapped:");
+      });
 
-   slider
-     .registerEvents(sliderEventBuilder)
-     .init()
-     .play();
- });
- ```
+  slider
+    .registerEvents(sliderEventBuilder)
+    .init()
+    .play();
+  });
+  ```  
+
 # 上下布局 
   * 首先引入必要文件  
-  
     * jQuery   : 1.10+  
-    
     * util     : Utils.js(本项目)  
-    
     * UDLayout : UDLayout.js(本项目)   
-    
  
   * HTML配置
   ```html
@@ -270,3 +267,45 @@
   * 小贴士
   
     如果初始内容没有超过视窗容器, 可设置内容容器最小高度[min-height:101%;]
+
+# 侧边栏
+
+  * 模块引入
+
+    * jquery  
+    * Utils.js(本项目) 
+    * SideBar.js(本项目)
+
+  * 通过javascript代码初始化侧边栏
+  ```javascript
+  // 获取侧边栏实例对象
+  var sidebar = new Sidebar();
+  // 通过配置数据初始化
+  sidebar.init({
+    direction : "right",              // {String} CSS Class样式,  默认值:up-Λ, right->, down-V, left-< 侧边栏所在的方向 
+    closeIco  : "sidebar-back-ico",   // {String} up/right/button/left 关闭按钮图标样式 
+    mainTitle : "Main Title",         // {String|jQuery|DOM} any 主标题 
+    subTitle  : "Sub Title",          // {String|jQuery|DOM} any 副标题 
+    width     : 0.6,                  // {Number} 0.1~1.0之间时使用百分比, 否则使用像素单位 容器占整个屏幕的宽度, 高度总是100% 
+  });
+  // 注册事件
+  sidebar.registerEvents({
+    opening : function(){console.log("opening");},  // -/- false-阻止打开 侧边栏打开前 
+    opened  : function(){console.log("opened");},   // -/- -/- 侧边栏打开后 
+    closing : function(){console.log("closing");},  // -/- false-阻止关闭 侧边栏关闭前 
+    closed  : function(){console.log("closed");},   // -/- -/- 侧边栏关闭后 
+  });
+  // 显示侧边栏
+  sidebar.show();
+  // 隐藏侧边栏, 点击侧边栏外部区域或点击ICO区域
+  ```
+  
+  * 配置说明
+  属性名 | 类型 | 范围 | 说明
+  ------|---|---|---
+  direction|{String}|top/right/bottom/left|侧边栏所在的方向
+  closeIco|{String|jQuery}|-/-|图标
+  mainTitle|{String|jQuery}|-/-|主标题
+  subTitle|{String|jQuery}|-/-|副标题
+  width|{Number}|0.1~1.0之间时使用百分比, 否则使用像素单位|左右侧边栏作为宽度, 上下侧边栏作为高度
+  speed|{Number}|正整数|动画执行时间
