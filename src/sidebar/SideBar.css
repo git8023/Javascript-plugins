@@ -1,18 +1,36 @@
 @CHARSET "UTF-8";
+/* body无滚动条 */
 .sidebar-hidden-scroll {overflow:hidden!important;}
-.sidebar,.sidebar * {box-sizing:border-box;-webkit-box-sizing:border-box;-o-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;}
-.sidebar {position:absolute; top:0; left:0; width:100%; height:100%; border:1px solid #F00;}
-.sidebar .sidebar-head {border:1px solid #F00; position:relative; font-size:24px; height:60px; line-height:60px; font-weight:bold;}
-.sidebar .sidebar-head .sidebar-back {border:1px solid #F00; position:absolute; width:60px; text-align:center; cursor:pointer;}
-.sidebar .sidebar-head .sidebar-back:hover {background:#EEE;}
-.sidebar .sidebar-head .sidebar-title-main {border:1px solid #F00; text-align:center; font-size:30px;}
-.sidebar .sidebar-head .sidebar-title-sub {border:1px solid #F00; position:absolute; top:0; right:0; width:30%; text-align:right; padding-right:20px;}
-.sidebar .sidebar-body {border:1px solid #F00;}
-.sidebar .sidebar-footer {border:1px solid #F00;}
 
-.sidebar.right {left:auto; right:0;}
-.sidebar.right .sidebar-back:before {content:">";}
-.sidebar.left {left:0;}
-.sidebar.left .sidebar-back:before {content:"<";}
-.sidebar.up .sidebar-back:before {content:"Λ";}
-.sidebar.down .sidebar-back:before {content:"V";}
+/* 通用样式 */
+.sidebar-no-before-and-after:before {content:""!important;}
+.sidebar-no-before-and-after:after{content:""!important;}
+.sidebar.sidebar-transparent,.sidebar .sidebar-transparent{filter:alpha(opacity=0); -moz-opacity:0; opacity:0;}
+.sidebar,.sidebar * {box-sizing:border-box;-webkit-box-sizing:border-box;-o-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;}
+.sidebar-screen {position:fixed; top:0; left:0; width:100000px; height:100000px; background:inherit; filter:alpha(opacity=20); -moz-opacity:0.2; opacity:0.2; z-index:1000; background:#999;}
+.sidebar {position:absolute; top:0; left:0; width:100%; height:100%; border:1px solid #DDD; background:#FFF; z-index:1001;}
+.sidebar .sidebar-head {background:#EEE; position:relative; font-size:24px; height:60px; line-height:60px; font-weight:bold;}
+.sidebar .sidebar-head .sidebar-back {color:#BBB; position:absolute; text-align:center; cursor:pointer; padding:0 20px;}
+.sidebar .sidebar-head .sidebar-back:hover {background:#DDD; color:#F2F2F2;}
+.sidebar .sidebar-head .sidebar-back:before {content:" ";}
+.sidebar .sidebar-head .sidebar-title-main {border:1px solid #DDD; text-align:center; font-size:30px;}
+.sidebar .sidebar-head .sidebar-title-sub {border:1px solid #DDD; position:absolute; top:0; right:0; text-align:right;}
+.sidebar .sidebar-body {border:1px solid #DDD; background:#DDD; overflow:auto;}
+.sidebar .sidebar-footer {border:1px solid #DDD;}
+
+/* 右侧 */
+.sidebar.right {left:auto; right:0; top:0; bottom:0;}
+.sidebar.right .sidebar-back:before {content:"X";}
+
+/* 左侧 */
+.sidebar.left {left:0; right:auto;}
+.sidebar.left .sidebar-back:before {content:"X";}
+.sidebar.left .sidebar-head .sidebar-back {left:auto; right:0;}
+.sidebar.left .sidebar-head .sidebar-title-sub {left:0; right:auto; text-align:left;}
+
+/* 上部 */
+.sidebar.top .sidebar-back:before {content:"X";}
+
+/* 下部 */
+.sidebar.bottom .sidebar-back:before {content:"X";}
+.sidebar.bottom {top:auto; bottom:0;}

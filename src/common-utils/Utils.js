@@ -224,4 +224,54 @@ var Utils = {
     };
     return parser.apply(new Date(), arguments);
   },
+
+  /**
+   * 执行函数
+   * @param ctxt {Object} 上下文环境
+   * @param fn {Function} 目标函数对象
+   * @param pn {Object} 从第三个参数开始到最后一个参数为止, 作为执行函数的参数
+   * @returns {Object} 函数非法返回 undefined, 否则返回函数执行结果
+   */
+  invoke : function(ctxt, fn, p1, p2, pn){
+    if(Validator.isNotFunction(fn)) return;
+    var ps = [];
+    Utils.each(arguments,function(v,k){(2<=k)&&ps.push(v);});
+    return fn.apply(ctxt, ps);
+  },
+
+  /**
+   * 获取真实路径
+   * @param url {String} 相对路径
+   * @param appendProject {Boolean} true-URL中需要包含项目名称
+   * @returns {String} URL访问路径
+   */
+  getRealUrl: function(url, appendProject) {
+    var baseUrl = Utils.getBaseUrl(appendProject);
+    return ((0<=url.indexOf(baseUrl)) ? url : (baseUrl + url)).replace("\\","/").replace("//","/");
+  },
+
+  /**
+   * 获取项目路径
+   * @param appendProject {Boolean} true-URL中需要包含项目名称
+   * @returns {String} 项目根目录
+   */
+  getBaseUrl : function(appendProject){
+    return location.origin+"/"+(appendProject?(location.pathname.match(/^\/([^\/]+)\/.+/)[1]+"/"):"");
+  },
+
+  /**
+   * 获取屏幕高度
+   * @returns {Number} 屏幕高度
+   */
+  screenHeight : function(){
+    return document.documentElement.clientHeight||document.body.clientHeight;
+  },
+  
+  /**
+   * 获取屏幕宽度
+   * @returns {Number} 屏幕宽度
+   */
+  screenWidth : function(){
+    return document.documentElement.clientWidth||document.body.clientWidth;
+  },
 }
