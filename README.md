@@ -301,10 +301,10 @@
   });
   // 注册事件
   sidebar.registerEvents({
-    opening : function(){console.log("opening");},  // -/- false-阻止打开 侧边栏打开前 
-    opened  : function(){console.log("opened");},   // -/- -/- 侧边栏打开后 
-    closing : function(){console.log("closing");},  // -/- false-阻止关闭 侧边栏关闭前 
-    closed  : function(){console.log("closed");},   // -/- -/- 侧边栏关闭后 
+    opening : function(){console.log("opening");},  // false-阻止打开 侧边栏打开前 
+    opened  : function(){console.log("opened");},   // 侧边栏打开后 
+    closing : function(){console.log("closing");},  // false-阻止关闭 侧边栏关闭前 
+    closed  : function(){console.log("closed");},   // 侧边栏关闭后 
   });
   // 显示侧边栏
   sidebar.show();
