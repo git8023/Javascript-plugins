@@ -133,6 +133,7 @@
             log("The footer has been created.");
             log("Executing the callback function:completed");
             $thisObj.events["completed"]($thisObj.pager);
+            return $thisObj;
         };
 
         /**
