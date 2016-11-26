@@ -274,4 +274,20 @@ var Utils = {
   screenWidth : function(){
     return document.documentElement.clientWidth||document.body.clientWidth;
   },
+
+  /**
+   * 属性拷贝
+   * @param target {Object} 目标对象
+   * @param orig {Object} 来源对象
+   * @param fn {Function} 属性拷贝前
+   */
+  copyProperties : function(target, src, fn) {
+    if (!target || Validator.isNotObject(target)) throw new Error("The target is not Object");
+    if (!src || Validator.isNotObject(src)) throw new Error("The source is not Object");
+    Validator.isNotFunction(fn) && (fn=function(){});
+    Utils.each(src, function(v, k){
+      if(false==fn(k, v, target[k])) return;
+      target[k]=v;
+    });
+  }
 }

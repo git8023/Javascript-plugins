@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  <link rel="stylesheet" href="../pager.css" />
+  <script type="text/javascript" src="../../jquery-1.10.2.js"></script>
+  <script type="text/javascript" src="../../common-utils/Utils.js"></script>
+  <script type="text/javascript" src="../DataGrid.js"></script>
+  <script type="text/javascript" src="../Pager.js"></script>
+
+  <style type="text/css">
+    table {width:100%; border:1px solid #000;}
+    th, td {border:1px solid #000;}
+  </style>
+</head>
+<body>
+
+  <div class="data-grid">
+    <table>
+      <thead>
+        <tr>
+          <th g-type="radio"></th>
+          <th g-type="checkbox"></th>
+          <th g-type="ordinal">#</th>
+          <th g-prop-name="id">ID</th>
+          <th g-prop-name="name">Name</th>
+          <th g-prop-name="birthday" g-type="date" g-date-format="yyyy-MM-dd">Birthday</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="data-pager" 
+    url="/pagingData"
+    current="1"
+    reload="true"
+    pageSizes="10,20,50,100"
+    numberCount="5"
+    reloadBySize="true"
+    />
+
+  <script type="text/javascript" src="index.js"></script>
+</body>
+</html>
