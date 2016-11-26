@@ -1,12 +1,12 @@
 # Javascript-plugins 
- * [轮播(slider)](https://github.com/git8023/Javascript-plugins/blob/master/README.md#横幅轮播) 
- * [滑动增强(iscroll-probe-enhance)](https://github.com/git8023/Javascript-plugins/blob/master/README.md#滑动增强)
+ * [轮播(slider)](#横幅轮播) 
+ * [滑动增强(iscroll-probe-enhance)](#滑动增强)
  * [表单(form)](https://github.com/git8023/jQuery-Form-Util)  
  * 布局  
-    * [上下布局(UDLayout)](https://github.com/git8023/Javascript-plugins#上下布局)  
-    * [左右布局(UDLayout)](https://github.com/git8023/Javascript-plugins#左右布局)  
-    * [布局示例](https://github.com/git8023/Javascript-plugins#布局示例)  
- * [侧边栏 (Sidebar)](https://github.com/git8023/Javascript-plugins#侧边栏 )
+    * [上下布局(UDLayout)](#上下布局)  
+    * [左右布局(UDLayout)](#左右布局)  
+    * [布局示例](#布局示例)  
+ * [侧边栏 (Sidebar)](#侧边栏 )
 
 # 横幅轮播  
  * 仅仅作为展示之用时, 可使用`jQuery`方式加载横幅  
