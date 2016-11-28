@@ -30,6 +30,7 @@
 
 /* 上部 */
 .sidebar.top .sidebar-back:before {content:"X";}
+.sidebar.top .sidebar-head {position:absolute; width:100%; bottom:0;}
 
 /* 下部 */
 .sidebar.bottom .sidebar-back:before {content:"X";}
