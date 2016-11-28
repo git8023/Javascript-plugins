@@ -118,10 +118,10 @@ function Sidebar() {
     switch(_conf.direction){
     case "left":
     case "right":
-      _conf.$ctnr.width(size+unit);
+      _conf.$ctnr.css("width", size+unit);
       break;
     default:
-      _conf.$ctnr.height(size+unit);
+      _conf.$ctnr.css("height", size+unit);
     }
     _conf.$body.height(_conf.$ctnr.height()-_conf.$head.height());
     $(window).resize(function(){

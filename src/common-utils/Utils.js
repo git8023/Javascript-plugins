@@ -289,5 +289,30 @@ var Utils = {
       if(false==fn(k, v, target[k])) return;
       target[k]=v;
     });
-  }
+  },
+
+  /**
+   * 获取屏幕属性
+   * @returns {Screen} width:可用区域宽度, height:可用区域高度
+   */
+  screen : function(){
+    return {
+      width   : document.documentElement.clientWidth,
+      height  : document.documentElement.clientHeight
+    };
+  },
+
+  /**
+   * 注册唯一委托事件
+   * @param ctxt {jQuery} 被委托对象
+   * @param selector {String} 选择器
+   * @param events {String} 事件名, 多个事件使用空格分割
+   * @param fn {Function} 事件处理器
+   * @returns 被委托对象
+   */
+  uniqueDelegate : function(ctxt, selector, events, fn){
+    if (Validator.isNotJQuery(ctxt)) throw new Error("Delegatable must be instance of jQuery");
+    if (Validator.isNotFunction(fn)) throw new Error("Event handler must be instance of Function");
+    return ctxt.undelegate(selector, events).delegate(selector, events, fn);
+  },
 }
