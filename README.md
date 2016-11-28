@@ -131,6 +131,7 @@
   </div>
   ```
   * JS代码
+  
   ```javascript
     $(function(){
       // 获取布局器
@@ -331,9 +332,9 @@
   show | -/- |{Sidebar}|显示侧边栏
   sidebar | -/- |{Sidebar}|隐藏侧边栏
   registerEvents|参考事件说明|{Sidebar}|注册事件
-  setIco|{String|jQuery} 图标|{jQuery} 图标容器控件|设置图标
-  setMainTitle|{String|jQuery} 主标题|{jQuery} 主标题控件|设置主标题
-  setSubTitle|{String|jQuery} 副标题|{jQuery} 副标题控件|设置副标题
+  setIco|{String/jQuery} 图标|{jQuery} 图标容器控件|设置图标
+  setMainTitle|{String/jQuery} 主标题|{jQuery} 主标题控件|设置主标题
+  setSubTitle|{String/jQuery} 副标题|{jQuery} 副标题控件|设置副标题
   setBody|$body {String|jQuery} 主体内容<br>hasProject {String} 需要远程加载数据时, 需要指定URL中是否需要包含项目名(端口号后第一个文档结构)|{jQuery} 主体内容控件|设置主体内容,内容为字符串时解析为远程加载URL
   refresh|-/-|{Sidebar}|重置主体内容高度设置
 
