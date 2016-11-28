@@ -1,12 +1,13 @@
 # Javascript-plugins 
- * [轮播(slider)](https://github.com/git8023/Javascript-plugins/blob/master/README.md#横幅轮播) 
- * [滑动增强(iscroll-probe-enhance)](https://github.com/git8023/Javascript-plugins/blob/master/README.md#滑动增强)
+ * [轮播(slider)](#横幅轮播) 
+ * [滑动增强(iscroll-probe-enhance)](#滑动增强)
  * [表单(form)](https://github.com/git8023/jQuery-Form-Util)  
  * 布局  
-    * [上下布局(UDLayout)](https://github.com/git8023/Javascript-plugins#上下布局)  
-    * [左右布局(UDLayout)](https://github.com/git8023/Javascript-plugins#左右布局)  
-    * [布局示例](https://github.com/git8023/Javascript-plugins#布局示例)  
- * [侧边栏 (Sidebar)](https://github.com/git8023/Javascript-plugins#侧边栏 )
+    * [上下布局(UDLayout)](#上下布局)  
+    * [左右布局(UDLayout)](#左右布局)  
+    * [布局示例](#布局示例)  
+ * [侧边栏 (Sidebar)](#侧边栏 )
+ * [数据网格 (DataGrid)](#数据网格)
 
 # 横幅轮播  
  * 仅仅作为展示之用时, 可使用`jQuery`方式加载横幅  
@@ -335,7 +336,7 @@
   setIco|{String/jQuery} 图标|{jQuery} 图标容器控件|设置图标
   setMainTitle|{String/jQuery} 主标题|{jQuery} 主标题控件|设置主标题
   setSubTitle|{String/jQuery} 副标题|{jQuery} 副标题控件|设置副标题
-  setBody|$body {String|jQuery} 主体内容<br>hasProject {String} 需要远程加载数据时, 需要指定URL中是否需要包含项目名(端口号后第一个文档结构)|{jQuery} 主体内容控件|设置主体内容,内容为字符串时解析为远程加载URL
+  setBody|$body {String/jQuery} 主体内容<br>hasProject {String} 需要远程加载数据时, 需要指定URL中是否需要包含项目名(端口号后第一个文档结构)|{jQuery} 主体内容控件|设置主体内容,内容为字符串时解析为远程加载URL
   refresh|-/-|{Sidebar}|重置主体内容高度设置
 
   * 事件说明
@@ -347,3 +348,134 @@ opened|-/-|-/-|侧边栏打开后
 closing|-/-|{Boolean} false-阻止关闭|侧边栏关闭前 
 closed|-/-|-/-|侧边栏关闭后 
 
+# 数据网格
+
+  * html配置
+
+  ```html
+  <div class="data-grid">
+    <table>
+      <thead>
+        <tr>
+          <th g-type="radio"></th>
+          <th g-type="checkbox"></th>
+          <th g-type="ordinal">#</th>
+          <th g-prop-name="id">ID</th>
+          <th g-prop-name="name">Name</th>
+          <th g-prop-name="birthday" g-type="date" g-date-format="yyyy-MM-dd">Birthday</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="data-pager" 
+    url="/pagingData"
+    current="1"
+    reload="true"
+    pageSizes="10,20,50,100"
+    numberCount="5"
+    reloadBySize="true"
+    />
+  ```
+
+  * javascript调用
+
+  ```javascript
+  var grid  = new DataGrid($(".data-grid"), true),
+      pager = new Pager($(".data-pager"), true);
+  pager.init({
+    // 点击翻页后, 发送请求前
+    beforeClick : function(index, next){},  // 参数 index, next; 返回值:false-截断执行
+
+    // 获取到服务器响应后
+    afterClick  : function(index, rData){   // 参数 index, data
+      var dataList = rData.data;
+      grid.fill(dataList, false);
+    },
+
+    // 初始化完成后
+    completed   : function(){},
+
+    // jQuery.ajax 请求发送前
+    // 返回值: 发送Ajax请求时需要的参数, 
+    // 如果返回值为[undefined|null]则使用默认值, 否则将使用处理后的返回值
+    beforeSend  : function(conf){
+      console.log(conf.param);
+      conf.param["searchKeyWord"] = "test";
+      return conf.param;
+    },
+  });
+  ```
+
+  * 数据网格配置项说明
+
+  参数名 | 类型 | 范围 | 说明
+  ---- | ---- | ---- | ----
+  g-prop-name | {String} | -/- | 属性名
+  g-empty | {String} | -/- | 指定属性值为空时, 展示的内容
+  g-style | {String} | -/- | 表头行内样式
+  g-class | {String} | -/- | 表头类样式
+  g-child-style | {String} | -/- | 数据行行内样式
+  g-child-class | {String} | -/- | 数据行类样式
+  g-type | {String} | date-日期类型<br>ordinal - 行号<br>radio - 单选框<br>checkbox - 多选框|单元格类型, radio/checkbox时值为ordinal
+  g-date-format | {String} | yMdhms | 当type为date时, 格式化日期样式
+  text | {String} | -/- | 表头展示的数据, 可配置为TH标签体内容
+
+  * 数据网格事件说明
+
+  事件名 | 参数 | 返回值 | 说明
+  ---- | ---- | ---- | ----
+  cellDataHandler | propName{String} - 属性名<br>propVal{Object} - 属性值 | -/- | 单元格数据处理前
+  cellHandler | cell{jQuery} - 单元格控件<br> propName{String} - 属性名<br>propVal{Object} - 属性值|-/-|单元格追加到行之前
+  rowDataHandler | ordinal{Number} - 行号<br>rowData{Object} - 行数据 | -/- | 行数据处理前 
+  rowHandler | row{jQuery} - 行控件<br>ordinal{Number} - 行号<br>rowData{Object} - 行数据 | -/- | 行追加到单元格之前
+  fillingHandler | -/- | -/- | 网格数据处理前
+  filledHandler | -/- | -/- | 网格数据填充完成后
+
+  * 页脚配置项说明
+
+  参数名 | 类型 | 范围 | 说明
+  ---- | ---- | ---- | ----
+  url | {String} | -/- | 分页处理接口(URL)
+  current | {Number} | 正整数 | 默认展示的页码, 通常为1
+  reload | {Boolean} | true/false | 点击当前页码时, 是否重新加载本页数据
+  pageSizes | {Number} | 正整数 | 提供的可选页大小, 逗号分隔多项 
+  numberCount | {Number} | 正整数 | 页码展示的数量 
+  reloadBySize | {Boolean} | true/false | 改变页大小时, 是否立即刷新数据网格
+
+  * 页脚事件说明
+
+  事件名 | 参数 | 返回值 | 说明
+  ---- | ---- | ---- | ----
+  beforeClick | index{Number} - 当前页码<br>next{Number} - 目标页码 | {Boolean} - false,禁止前往目标数据页 | 点击页码后, 发送请求前
+  afterClick | index{Number} - 当前页码<br>rData{Object} - 服务器响应的数据 | {Object} - 处理后的数据 | 获取服务器响应后, 处理数据前. 返回null/undefined时, 直接使用服务器相应数据
+  completed | -/- | -/- | 初始化完成后(仅执行一次) 
+  beforeSend | conf{Object} - 请求参数包装对象 | {Object} - 请求参数 | 发送请求前, 获取参数`var param = conf.param`, 返回null/undefined时, 直接使用默认参数,否则将使用返回值作为请求参数
+
+  * 页脚方法说明
+
+  方法名 | 参数 | 返回值 | 说明
+  ---- | ---- | ---- | ----
+  init | conf{Object} | {this} | 初始化页脚, 参数详情参照`页脚配置项说明`和`页脚事件说明`
+  current | currentIndex{Number} - 当前页码 | {this} | 参数为空时,获取当前页码; 否则设置为参数指定页码
+  reload | -/- | -/- | 重新加载本页数据
+
+  * 分页数据响应格式说明
+  ```javascript
+  // 如果实际响应格式与当前格式不匹配时, 
+  // 可在 afterClick 中做出调整
+  var resultStruct =  { 
+    flag : {Boolean}, 
+    message : {String}, 
+    data : { 
+      pageSize  : {Number}, // 页大小 
+      pageIndex : {Number}, // 当前页 
+      pageTotal : {Number}, // 总页数 
+      beginNum  : {Number}, // 开始页码 
+      endNum    : {Number}, // 结束页码 
+      rowCount  : {Number}, // 总页数 
+      data      : {Object}  // 分页数据 
+    } 
+  }
+  ```
+  
+  
