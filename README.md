@@ -388,7 +388,7 @@ closed|-/-|-/-|侧边栏关闭后
 
     // 获取到服务器响应后
     afterClick  : function(index, rData){   // 参数 index, data
-      var dataList = rData.data;
+      var dataList = rData.data.data;
       grid.fill(dataList, false);
     },
 
@@ -475,7 +475,28 @@ closed|-/-|-/-|侧边栏关闭后
       rowCount  : {Number}, // 总页数 
       data      : {Object}  // 分页数据 
     } 
-  }
+  };
+
+  // 在afterClick中做出数据结构调整
+  pager.init({
+    afterClick : function(pageIndex, rData) {
+      var pageData = { 
+        flag : (1==rData.code), 
+        message : rData.msg, 
+        data : { 
+          pageSize  : rData["pageSize"],  // 页大小 
+          pageIndex : rData["pageIndex"], // 当前页 
+          pageTotal : rData["pageTotal"], // 总页数 
+          beginNum  : rData["beginNum"],  // 开始页码 
+          endNum    : rData["endNum"],    // 结束页码 
+          rowCount  : rData["rowCount"],  // 总页数 
+          data      : rData["data"]       // 分页数据 
+        } 
+      };
+      // grid.fill(pageData.data.data);
+      return pageData;
+    }
+  });
   ```
   
   
