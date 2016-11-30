@@ -291,3 +291,58 @@ var Utils = {
     });
   }
 }
+
+/**
+ * 异步请求工具
+ */
+function AjaxUtil() {
+  if (!(this instanceof arguments.callee)) return new arguments.callee();
+  var $thisObj = this;
+
+  /**
+   * 发送Ajax请求
+   * @param conf {Object} 与jQuery.ajax参数相同
+   */
+  this.ajax = function(conf) {
+    Validator.isNotObject(conf) && (conf={});
+    var url = $.trim(conf["url"]);
+    if (!url) throw new Error("Missing required parameter[url]["+JSON.stringify(conf)+"]");
+    Validator.isNotFunction(conf["error"]) && (conf["error"]=$thisObj.errHandler);
+    if (Validator.isFunction($thisObj.beforeSend)) {
+      var stop = (false==$thisObj.beforeSend(conf["data"]));
+      if (stop) return;
+    }
+    $.ajax(conf);
+  };
+
+  /**
+   * 发送Ajax请求, POST请求方式, JSON响应格式
+   * @param conf {Object} 与jQuery.ajax参数相同
+   */
+  this.jsonAjax = function(conf) {
+    Validator.isNotObject(conf) && (conf={});
+    conf["dataType"] = "JSON";
+    conf["type"] = "POST";
+    $thisObj.ajax(conf);
+  };
+
+  /**
+   * 默认错误处理
+   * @param errData {Object} 错误消息
+   */
+  this.errHandler = function(errData) {
+    var printer = console?console.err:alert;
+    printer("Ajax error: " + JSON.stringify(errData));
+  };
+
+  /**
+   * 请求发送前
+   * @param param {Object} 请求参数
+   * @returns false-阻止请求
+   */
+  this.beforeSend = function(param) {
+  };
+
+  return this;
+};
+AjaxUtil.instance = new AjaxUtil();
