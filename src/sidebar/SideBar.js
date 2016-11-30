@@ -196,9 +196,10 @@ function Sidebar() {
 
   /**
    * 显示侧边栏
+   * @param afterFn {Function} 动画执行完成后
    * @returns {this}
    */
-  this.show = function(){
+  this.show = function(afterFn){
     // 侧边栏打开前
     var r = Utils.invoke($thisObj, _events.opening);
     if (false === r) return;
@@ -210,16 +211,21 @@ function Sidebar() {
     param[_conf.direction]=0;
     _conf.$ctnr.animate(param, _conf.speed, function(){
       Utils.invoke($thisObj, _events.opened);
+      Validator.isFunction(afterFn) && afterFn.call($thisObj);
     });
     return $thisObj;
   }
 
   /**
    * 隐藏侧边栏
+   * @param afterFn {Function} 动画执行完成后
    * @returns {this}
    */
-  this.hide = function(){
+  this.hide = function(afterFn){
     _conf.$hIco.click();
+    setTimeout(function(){
+      Validator.isFunction(afterFn) && afterFn.call($thisObj);
+    }, _conf.speed);
     return $thisObj;
   }
 
