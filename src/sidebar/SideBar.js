@@ -97,8 +97,10 @@ function Sidebar() {
     // 配置
     (conf instanceof Object)&&Utils.eachValue(_conf, function(v,k){_conf[k]=conf[k]||v;});
 
+    var zIndex = 1000 + $("."+_styles.CONTAINER).size();
+    
     // 设置容器
-    _conf.$ctnr       = $(createTemporary());
+    _conf.$ctnr       = $(createTemporary()).css("z-index", zIndex);
     _conf.$head       = _conf.$ctnr.find("."+_styles.HEADER_CONTAINER);
     _conf.$hIco       = _conf.$ctnr.find("."+_styles.HEADER_BACK_ICO);
     _conf.$hMainTitle = _conf.$ctnr.find("."+_styles.HEADER_MAIN_TITLE);
