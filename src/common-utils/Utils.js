@@ -247,7 +247,8 @@ var Utils = {
    */
   getRealUrl: function(url, appendProject) {
     var baseUrl = Utils.getBaseUrl(appendProject);
-    return ((0<=url.indexOf(baseUrl)) ? url : (baseUrl + url)).replace("\\","/").replace("//","/");
+    url+="";
+    return ((0<=url.indexOf(baseUrl)) ? url : (baseUrl + url.replace("\\","/").replace("//","/")));
   },
 
   /**
@@ -356,7 +357,7 @@ function AjaxUtil() {
    * @param errData {Object} 错误消息
    */
   this.errHandler = function(errData) {
-    var printer = console?console.err:alert;
+    var printer = console?console.error:alert;
     printer("Ajax error: " + JSON.stringify(errData));
   };
 
