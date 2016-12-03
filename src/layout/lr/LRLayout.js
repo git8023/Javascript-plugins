@@ -56,7 +56,7 @@ function LRLayout($ctnr, debug) {
    */
   this.init = function(leftWidth){
     log("start initial layout");
-    var usePx = (0>leftWidth&&leftWidth>1),
+    var usePx = leftWidth>1,
         unit  = usePx?"px":"%",
         maxW  = (usePx?_conf.ctnr.width():100)-0,
         lW    = usePx?leftWidth:(leftWidth*100),
