@@ -20,7 +20,7 @@
  */
 function IScrollWrapper(_iScroll, _offsetHeight) {
   var callee = arguments.callee;
-  if (!(this instanceof callee)) return new arguments.callee(_iScroll);
+  if (!(this instanceof callee)) return new arguments.callee(_iScroll, _offsetHeight);
   var $thisObj  = this, 
       _conf     = {
                     iScroll : _iScroll,
@@ -92,11 +92,11 @@ function IScrollWrapper(_iScroll, _offsetHeight) {
     var OFFSET_HEIGHT = _conf.offset;
     if (this.y > OFFSET_HEIGHT)
       _events.boundary(this.directionType=_keys.DOWN);
-    else if (this.y >= 0)
+    else if (this.y > 0)
       _events.moving(this.movingType=_keys.DOWN);
     else if (this.y < (this.maxScrollY-OFFSET_HEIGHT)) 
       _events.boundary(this.directionType=_keys.UP);
-    else if (0 >= this.y) 
+    else if (0 > this.y) 
       _events.moving(this.movingType=_keys.UP);
 
     var y = parseInt(this.y);
