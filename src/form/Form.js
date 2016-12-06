@@ -122,14 +122,11 @@ function Form(formContainer, debug) {
                 // 配置项验证
                 regexp = eval("(" + regexpStr + ")");
                 log("regexp[" + regexp + "].");
-                if (!(regexp instanceof RegExp)) {
-                    log("Invalid [" + regexAttr + "] configure[" + regexpStr + "].");
-                    return false;
-                }
+                if (!(regexp instanceof RegExp)){log("Invalid ["+regexAttr+"] configure["+regexpStr+"].");return false;}
 
                 // 正则表达式验证
-                var val = item.val(), errMsg = item.attr(KEYS.validate.ATTRIBUTES.REGEXP_ERROR);
-                var valid = regexp.test(val);
+                var val   = item.val(), errMsg = item.attr(KEYS.validate.ATTRIBUTES.REGEXP_ERROR),
+                    valid = regexp.test(val);
                 config.events.validate._invoke(item, valid, errMsg);
 
                 return valid;
@@ -142,9 +139,11 @@ function Form(formContainer, debug) {
 
                 // 执行 Equals To 验证
                 log("Target control selector[" + equlasToAttr + "].");
-                var targetCtrl = $(eqToSelector), targetVal = targetCtrl.val();
-                var val = item.val(), errMsg = item.attr(KEYS.validate.ATTRIBUTES.EQULAS_TO_ERROR);
-                var valid = (val == targetVal);
+                var targetCtrl  = $(eqToSelector), 
+                    targetVal   = targetCtrl.val(),
+                    val         = item.val(), 
+                    errMsg      = item.attr(KEYS.validate.ATTRIBUTES.EQULAS_TO_ERROR),
+                    valid       = (val==targetVal);
                 config.events.validate._invoke(item, valid, errMsg);
 
                 return valid;
@@ -152,15 +151,17 @@ function Form(formContainer, debug) {
             doNotEqTo: function(item) {
                 log("Do Not Equals To.");
                 // 获取配置项
-                var notEqulasToAttr = KEYS.validate.ATTRIBUTES.NOT_EQULAS_TO;
-                var notEqToSelector = item.attr(notEqulasToAttr);
-                if (undefined == notEqToSelector || !notEqToSelector) return;
+                var notEqulasToAttr = KEYS.validate.ATTRIBUTES.NOT_EQULAS_TO,
+                    notEqToSelector = item.attr(notEqulasToAttr);
+                if (undefined==notEqToSelector || !notEqToSelector) return;
 
                 // 执行验证
                 log("Target control selector[" + notEqToSelector + "].");
-                var targetCtrl = $(notEqToSelector), targetVal = targetCtrl.val();
-                var val = item.val(), errMsg = item.attr(KEYS.validate.ATTRIBUTES.NOT_EQULAS_TO_ERROR);
-                var valid = (val != targetVal);
+                var targetCtrl  = $(notEqToSelector), 
+                    targetVal   = targetCtrl.val(),
+                    val         = item.val(), 
+                    errMsg      = item.attr(KEYS.validate.ATTRIBUTES.NOT_EQULAS_TO_ERROR),
+                    valid       = (val != targetVal);
                 config.events.validate._invoke(item, valid, errMsg);
 
                 return valid;
@@ -182,7 +183,7 @@ function Form(formContainer, debug) {
                     param = {};
                 param[name] = value;
                 $.ajax({
-                    url: stringUtil.getRealUrl(url),
+                    url: Utils.getRealUrl(url, true),
                     data: param,
                     async: false,
                     success: function(rData) {
@@ -190,17 +191,12 @@ function Form(formContainer, debug) {
                         log("Remote verified result: >>" + (typeof rData == "object" ? JSON.stringify(rData) : rData));
 
                         // 尝试将返回结果处理为非字符串类型
-                        try {
-                            rData = eval("(" + rData + ")");
-                        } catch (e) {
-                            log("Convert to javascript object failed:" + e.message + ".");
-                        }
+                        try {rData=eval("("+rData+")")} 
+                        catch (e) {log("Convert to Object failed:" + e.message + ".");}
 
                         // 优先执行客户远程结果处理器
-                        if (config.events.validate.remoteHandler instanceof Function) {
-                            config.events.validate.remoteHandler(item, rData);
-                            return;
-                        }
+                        var fn = config.events.validate.remoteHandler
+                        Validator.isFunction(fn)&&config.events.validate.remoteHandler(item, rData);
 
                         // 执行默认处理器
                         var errMsg = item.attr(KEYS.validate.ATTRIBUTES.REMOTE_ERROR);
@@ -226,24 +222,24 @@ function Form(formContainer, debug) {
                 // 可以叠加验证, 其中一个验证失败, 返回false; 否则继续验证, 直到调用完所有验证, 返回结果;
                 // :> Regexp
                 tmp = this.doRegex(item);
-                result = (undefined != tmp ? (tmp && result) : result);
+                result = (undefined!=tmp ? (tmp&&result) : result);
 
                 // :> eqTo
                 if (result) {
                     tmp = this.doEqTo(item);
-                    result = (undefined != tmp ? (tmp && result) : result);
+                    result = (undefined!=tmp ? (tmp&&result) : result);
                 }
 
                 // :> notEqTo
                 if (result) {
                     tmp = this.doNotEqTo(item);
-                    result = (undefined != tmp ? (tmp && result) : result);
+                    result = (undefined!=tmp ? (tmp&&result) : result);
                 }
 
                 // :> remote
                 if (result && !item.attr(KEYS.validate.ATTRIBUTES.REMOTE_TRIGGER_EVENT)) {
                     tmp = this.doRemote(item);
-                    result = (undefined != tmp ? (tmp && result) : result);
+                    result = (undefined!=tmp ? (tmp&&result) : result);
                 }
 
                 return result;
@@ -265,18 +261,14 @@ function Form(formContainer, debug) {
                     }
 
                     var val = item.val();
-                    if (!(!valid)) {
-                        return this.validSuccess.call($thisObj, item, val);
-                    } else {
-                        return this.validFailed.call($thisObj, item, val, errMsg);
-                    }
+                    return valid 
+                              ? this.validSuccess.call($thisObj, item, val) 
+                              : this.validFailed.call($thisObj, item, val, errMsg);
                 },
                 _repair: function() {
-                    for ( var k in this) {
-                        if (/$valid/.test(k) && !(this[k] instanceof Function)) {
+                    for ( var k in this)
+                        if (/$valid/.test(k) && Validator.isNotFunction(this[k])) 
                             this[k] = createEmptyFn();
-                        }
-                    }
                 },
                 _summary: "验证回调函数列表"
             },
@@ -300,17 +292,13 @@ function Form(formContainer, debug) {
             },
             isRegistered: function(item) {
                 var name = item.attr(KEYS.ATTRIBUTE.NAME);
-                if (config.autoEvents.keyup[name] || config.autoEvents.blur[name]) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return config.autoEvents.keyup[name] || config.autoEvents.blur[name];
             },
             supportEvent: function(key) {
-                if (undefined != key && null != key) {
+                if (null != key) {
                     key += FINAL_VALUE.EMPTY_STRING;
                     var keyConf = config.autoEvents[key];
-                    if (!!keyConf && !!keyConf[KEYS.CONFIG.SUMMARY]) { return true; }
+                    if (!!keyConf && !!keyConf[KEYS.CONFIG.SUMMARY])return true;
                 }
                 return false;
             },
@@ -329,16 +317,13 @@ function Form(formContainer, debug) {
                 // 设置执行环境为当前Form对象
                 var $this = $(this), name = $this.attr(KEYS.ATTRIBUTE.NAME), eventName = $event.type;
                 var conf = config.autoEvents[eventName];
-                if (!conf) {
-                    log("Can't support automation event type[eventType=" + eventName + "].");
-                    return false;
-                }
+                if (!conf)return false;
 
                 var keyUpEventConf = conf[name];
                 if (!!keyUpEventConf) {
                     log("Found registered automation event configuration[formControlName=" + name + "].");
                     var handler = keyUpEventConf[KEYS.CONFIG.AUTO_EVENT.HANDLER];
-                    isFn(handler) && handler.call($thisObj, $this);
+                    Validator.isFunction(handler) && handler.call($thisObj, $this);
                 } else {
                     log("The current form control unregistered automatic event[formControlName=" + name + "].");
                 }
@@ -350,52 +335,42 @@ function Form(formContainer, debug) {
     };
 
     // 创建空函数
-    function createEmptyFn() {
-        return function() {
-        };
-    }
+    function createEmptyFn() {return function(){};}
 
     /**
      * 获取表单数据
-     * 
-     * @param refreshCached
-     *            {Boolean} true-使用缓存的表单项, false-刷新表单项缓存
+     * @param refreshCached {Boolean} true-使用缓存的表单项, false-刷新表单项缓存
      * @returns {JSON} 表单数据
      */
     this.getData = function(refreshCached) {
-        refreshCached = !(!refreshCached)
         log("Get form data.");
-        $thisObj.getFormItems(refreshCached);
+        $thisObj.getFormItems(!!refreshCached);
 
         var data = {};
         // Single value
         log("Set single values.");
         $thisObj.formItems.singleValItems.each(function() {
-            var $this = $(this), name = ($this.attr(KEYS.ATTRIBUTE.NAME) || FINAL_VALUE.EMPTY_STRING).trim();
-            if (!name) return true;
-            data[name] = $this.val();
+            var $this = $(this), 
+                name  = $.trim($this.attr(KEYS.ATTRIBUTE.NAME)),
+                val   = $this.val();
+            val && name && (data[name]=val);
         });
 
         // Array value
         log("Set repeat value.");
         $thisObj.formItems.repeatableItems.each(function() {
-            var $this = $(this), val = $this.val();
-            var name = ($this.attr(KEYS.ATTRIBUTE.NAME) || FINAL_VALUE.EMPTY_STRING).trim();
-            log("Form contorl [name='" + name + "'][value='" + val + "'].");
+            var $this   = $(this), 
+                val     = $this.val(),
+                name    = $.trim($this.attr(KEYS.ATTRIBUTE.NAME)),
+                exclude = !$this.is(":checked");
 
-            if (!name) {
-                log("Skip invalid form control.");
-                return true;
-            }
+            if (!name || exclude) return true;
 
             if ("INPUT" == $this[0].tagName) {
                 if (FINAL_VALUE.INPUT_TYPE_CHECKBOX == $this.attr(KEYS.ATTRIBUTE.INPUT_TYPE)) {
                     log("This is 'checkbox' input control.");
                     var choseCheckbox = $this.is(FINAL_VALUE.CHECKED_SELECTOR);
-                    if (!choseCheckbox) {
-                        log("Skip unchecked item");
-                        return true;
-                    }
+                    if (!choseCheckbox)return true;
                 }
             }
 
@@ -413,9 +388,7 @@ function Form(formContainer, debug) {
 
     /**
      * 获取表单项, 表单项包含的控件请查阅 <b>Form.prototype.config.selectors.singleSelectors</b>
-     * 
-     * @param refreshCached
-     *            {Boolean} true-使用缓存的表单项, false-重新获取表单项(<i>表单结构有变动时使用</i>)
+     * @param refreshCached {Boolean} true-使用缓存的表单项, false-重新获取表单项(<i>表单结构有变动时使用</i>)
      * @returns {Object} 表单项列表
      */
     this.getFormItems = function(refreshCached) {
@@ -437,23 +410,65 @@ function Form(formContainer, debug) {
     /**
      * 表单验证
      * 
-     * @param conf
-     *            {Object} 验证配置, 以下是<i>conf</i>属性列表: <br>
-     *            <p>
-     *            <b>refreshCached</b> - {Boolean} (Default:false) 刷新表单项缓存
-     *            表单项列表或存在影响验证结果的变动时, 应指定为 true<br>
-     *            <b>validAll</b> - {Boolean} (Default:false) true-总是验证所有表单项,
-     *            false-遇到验证失败时停止验证. <b>远程验证与此配置无关</b><br>
-     *            <br>
-     *            以下验证结果处理器会覆盖({@link new Form().registerEvents()})已经注册的验证结果处理器<br>
-     *            <b>validSuccess</b> - {Function} 验证通过回调函数. 参数:{item, value}<br>
-     *            <b>validFailed</b> - {Function} 验证失败回调函数. 参数:{item, value,
-     *            errMsg(表单项的regex属性值)}<br>
-     *            <b>remoteHandler</b> - {Function} 远程验证回调函数, 参数: {item,
-     *            resultData} <br>
-     *            <b>validCompleted</b> - {Function} 验证完成后回调函数.
-     *            参数:{validResult}<br>
-     *            </p>
+     * @param conf {Object} 验证配置, 以下是<i>conf</i>属性列表: <br>
+     * <table border="1" width="100%">
+     *  <tr>
+     *    <th colspan="4">值类型参数</th>
+     *  </tr>
+     *  <tr>
+     *    <th>参数名</th>
+     *    <th>类型</th>
+     *    <th>范围</th>
+     *    <th>说明</th>
+     *  </tr>
+     *  <tr>
+     *    <td>refreshCached</td>
+     *    <td>{Boolean}</td>
+     *    <td>默认值:false</td>
+     *    <td>刷新表单项缓存表单项列表或存在影响验证结果的变动时, 应指定为 true</td>
+     *  </tr>
+     *  <tr>
+     *    <td>validAll</td>
+     *    <td>{Boolean}</td>
+     *    <td>true-总是验证所有表单项,<br>false-遇到验证失败时停止验证.</td>
+     *    <td>总是校验所有项, 远程验证与此配置无关</td>
+     *  </tr>
+     * </table>
+     * <table border="1" width="100%">
+     *  <tr>
+     *    <th colspan="4">事件监控, 以下验证结果处理器会覆盖[registerEvents]已经注册的验证结果处理器</th>
+     *  </tr>
+     *  <tr>
+     *    <th>事件名</th>
+     *    <th>参数</th>
+     *    <th>返回值</th>
+     *    <th>说明</th>
+     *  </tr>
+     *  <tr>
+     *    <td>validSuccess</td>
+     *    <td>currItem, value</td>
+     *    <td>-/-</td>
+     *    <td>验证通过回调函数</td>
+     *  </tr>
+     *  <tr>
+     *    <td>validFailed</td>
+     *    <td>currItem, value, errMsgByConf</td>
+     *    <td>-/-</td>
+     *    <td>验证失败回调函数</td>
+     *  </tr>
+     *  <tr>
+     *    <td>remoteHandler</td>
+     *    <td>currItem, resultData</td>
+     *    <td>-/-</td>
+     *    <td>远程验证回调函数</td>
+     *  </tr>
+     *  <tr>
+     *    <td>validCompleted</td>
+     *    <td>validResult{Boolean}</td>
+     *    <td>-/-</td>
+     *    <td>验证完成后回调函数</td>
+     *  </tr>
+     * </table>
      * @returns {Boolean} true-验证通过, false-验证失败, undefined-丢失结果处理器(不执行验证)
      */
     this.validate = function(conf) {
@@ -466,45 +481,41 @@ function Form(formContainer, debug) {
         log("Set callbacks: validSuccess, validFailed, validCompleted");
         $thisObj.registerEvents(conf);
         if (!hasValidationHandler()) {
-            log("Can't found any callbacks. Skip the verification.");
-            return validResult;
+          log("Can't found any callbacks. Skip the verification.");
+          return validResult;
         }
 
         // 获取表单项列表
         log("Get form controls.");
-        if (conf["refreshCached"]) {
-            $thisObj.getFormItems(true);
-        }
+        if (conf["refreshCached"]) $thisObj.getFormItems(true);
 
         log("Get the form controls list and order structure.");
         var groupItems = $thisObj.getNamedFormControl();
 
         // 过滤暂时不支持的项: input[type='radio'], input[type='checkbox'], select
         if (!(groupItems && groupItems.length)) {
-            log("Can't found form control, skip verification.");
-            return validResult;
-        } else {
-            log("Filtering unsuport form controls: input[type='radio'], input[type='checkbox'], select.");
-            var filteredArr = groupItems.filter(function(item) {
-                var tagName = $.trim(item[0].tagName);
-                if (/SELECT/i.test(tagName)) {
-                    return false;
-                } else if (/INPUT/i.test(tagName)) {
-                    var iptType = item.attr(KEYS.ATTRIBUTE.INPUT_TYPE);
-                    return (-1 == ["radio", "checkbox", "button"].indexOf(iptType));
-                } else {
-                    return true;
-                }
-            });
-            log("Filtered tag size: " + filteredArr.length + ".");
+          log("Can't found form control, skip verification.");
+          return validResult;
         }
+        
+        log("Filtering unsuport form controls: input[type='radio'], input[type='checkbox'], select.");
+        var filteredArr = groupItems.filter(function(item) {
+          var tagName = $.trim(item[0].tagName);
+          if (/SELECT/i.test(tagName)) return false;
+          if (/INPUT/i.test(tagName)) {
+            var iptType = item.attr(KEYS.ATTRIBUTE.INPUT_TYPE);
+            return (-1 == ["radio", "checkbox", "button"].indexOf(iptType));
+          }
+          return true;
+        });
+        log("Filtered tag size: " + filteredArr.length + ".");
 
         log("Validate start.");
         validResult = true;
         Utils.each(groupItems, function(item, idx) {
-            log("Current form control name: " + item.attr(KEYS.ATTRIBUTE.NAME) + ".");
-            validResult = (config.validators.invoke(item) && validResult);
-            if (!(conf["validAll"] || validResult)) return false;
+          log("Current form control name: " + item.attr(KEYS.ATTRIBUTE.NAME) + ".");
+          validResult = (config.validators.invoke(item) && validResult);
+          if (!(conf["validAll"] || validResult)) return false;
         });
 
         // 调用 validCompleted
@@ -524,51 +535,60 @@ function Form(formContainer, debug) {
         var validCompleted = (config.events.validate.validCompleted instanceof Function);
         config.events.validate._repair();
 
-        if (!(hasValidSuccess || validFailed || validCompleted)) {
-            return false;
-        } else {
-            return true;
-        }
+        return hasValidSuccess||validFailed||validCompleted;
     }
 
     /**
      * 获取表单控件
-     * 
      * @returns {Array} 表单控件数组, 按控件在表单中的顺序
      */
     this.getNamedFormControl = function() {
-        var namedCtrls = [];
-        $thisObj.container.find("[name]").each(function() {
-            namedCtrls.push($(this));
-        });
-        return namedCtrls;
-    }
-
-    // 校验指定对象是否 Function
-    function isFn(obj) {
-        return (obj && (obj instanceof Function));
+      var namedCtrls = [];
+      $thisObj.container.find("[name]").each(function(){namedCtrls.push($(this))});
+      return namedCtrls;
     }
 
     /**
      * 事件注册
+     * @param events {Object} 事件列表
      * 
-     * @param events
-     *            {Object} 事件列表
-     * 
-     * <pre>
      * 自动触发事件:
      * refreshAutoEvent : {Boolean}     true-刷新自动事件
-     * 
-     * 验证事件:
-     * validSuccess     : {Function}    验证成功回调函数, 参数: {item, value}
-     * validFailed      : {Function}    验证失败回调函数, 参数: {item, value, errMsg}
-     * remoteHandler    : {Function}    远程数据回调函数, 参数: {item, value, errMsg}
-     * validCompleted   : {Function}    验证完成回调函数
-     * 
-     * 表单回填事件:
-     * beforeHandler    : {Function}    表单项回填前置处理函数; 参数: {item, value}; 返回值:{Boolean} 阻止当前回填
-     * namesHandler     : {Object}      Key-{String}, Value-{Function}  参数: {item, value}; 返回值:{Boolean} 阻止当前回填
-     * </pre>
+     * <table border="1" width="100%">
+     *  <tr>
+     *    <th colspan="4">事件监控, 以下验证结果处理器会覆盖[registerEvents]已经注册的验证结果处理器</th>
+     *  </tr>
+     *  <tr>
+     *    <th>事件名</th>
+     *    <th>参数</th>
+     *    <th>返回值</th>
+     *    <th>说明</th>
+     *  </tr>
+     *  <tr>
+     *    <td>validSuccess</td>
+     *    <td>currItem, value</td>
+     *    <td>-/-</td>
+     *    <td>验证通过回调函数</td>
+     *  </tr>
+     *  <tr>
+     *    <td>validFailed</td>
+     *    <td>currItem, value, errMsgByConf</td>
+     *    <td>-/-</td>
+     *    <td>验证失败回调函数</td>
+     *  </tr>
+     *  <tr>
+     *    <td>remoteHandler</td>
+     *    <td>currItem, resultData</td>
+     *    <td>-/-</td>
+     *    <td>远程验证回调函数</td>
+     *  </tr>
+     *  <tr>
+     *    <td>validCompleted</td>
+     *    <td>validResult{Boolean}</td>
+     *    <td>-/-</td>
+     *    <td>验证完成后回调函数</td>
+     *  </tr>
+     * </table>
      */
     this.registerEvents = function(events) {
         log("Register events:" + (events ? JSON.stringify(events) : events));
@@ -626,131 +646,144 @@ function Form(formContainer, debug) {
         for ( var key in KEYS.backfill.HANDLERS) {
             var eventName = KEYS.backfill.HANDLERS[key];
             var eventFn = events[eventName];
-            isFn(eventFn) && (config.events.backfill[eventName] = eventFn);
+            Validator.isFunction(eventFn) && (config.events.backfill[eventName]=eventFn);
         }
 
-        var namedHandler = KEYS.backfill.HANDLERS.NAMED_HANDLERS;
-        config.events.backfill[namedHandler] = (events[namedHandler] || config.events.backfill[namedHandler]);
-        if (!(config.events.backfill[namedHandler] && config.events.backfill[namedHandler] instanceof Object)) {
-            config.events.backfill[namedHandler] = {};
-        }
+        var namedHandler  = KEYS.backfill.HANDLERS.NAMED_HANDLERS,
+            handlerConf   = config.events.backfill[namedHandler];
+        
+        config.events.backfill[namedHandler] = (events[namedHandler]||handlerConf);
+        Validator.isNotObject(handlerConf) && (config.events.backfill[namedHandler]={});
     }
 
     // 验证事件设置
     function setValidEvents(events) {
-        for ( var key in KEYS.validate.EVENTS) {
-            var eventName = KEYS.validate.EVENTS[key];
-            var eventFn = events[eventName];
-            isFn(eventFn) && (config.events.validate[eventName] = eventFn);
+      Utils.each(KEYS.validate.EVENTS, function(name){
+        var fn = events[name];
+        Validator.isFunction(fn) && (config.events.validate[name]=fn);
+      });
+    }
+
+    /**
+     * 表单项恢复到默认状态
+     * @returns {this}
+     */
+    this.recover = function(){
+      $thisObj.container.find("[name]").each(function(){
+        var $this = $(this);
+        $this.val(this.defaultValue);
+        var tagName = this.tagName;
+        if (/^SELECT$/ig.test(tagName)) {
+          $this.val($this.find("[selected]").val());
         }
+
+        var iptType = $this.attr("type"),
+            cbkBox  = /(RADIO|CHECKBOX)/i.test(iptType),
+            checked = $this.attr("checked");
+        $this.prop("checked", !!checked);
+      });
     }
 
     /**
      * 表单数据回填
-     * 
-     * @param conf
-     *            {Object} 表单回填配置<br>
-     *            <table border="1">
-     *            <tr>
-     *            <th>参数名</th>
-     *            <th>类型</th>
-     *            <th>说明</th>
-     *            </tr>
-     *            <tr>
-     *            <td>formData</td>
-     *            <td>Object</td>
-     *            <td>需要回填的表单数据</td>
-     *            </tr>
-     *            <tr>
-     *            <td>beforeHandler</td>
-     *            <td>Function</td>
-     *            <td>填充表单项统一前置处理器<br>
-     *            参数 : {item, value}<br>
-     *            返回值: {Boolean} false-终止剩余表单回填</td>
-     *            </tr>
-     *            <tr>
-     *            <td>namedHandlers</td>
-     *            <td>Object</td>
-     *            <td>填充表单项指定名称处理器, 优先级高于beforeHandle.<br>
-     *            Key : {String} 表单项名称<br>
-     *            Value : {Function} 处理器. 参数 : {item, value}; 返回值: {Boolean}
-     *            false-终止当前表单回填<br>
-     *            </tr>
-     *            </table>
+     * @param conf {Object} 表单回填配置<br>
+     * <table border="1">
+     *  <tr>
+     *    <th>参数名</th>
+     *    <th>类型</th>
+     *    <th>说明</th>
+     *  </tr>
+     *  <tr>
+     *    <td>formData</td>
+     *    <td>Object</td>
+     *    <td>需要回填的表单数据</td>
+     *  </tr>
+     *  <tr>
+     *    <td>beforeHandler</td>
+     *    <td>Function</td>
+     *    <td>填充表单项统一前置处理器<br>
+     *        参数 : {item, value}<br>
+     *        返回值: {Boolean} false-终止剩余表单回填
+     *    </td>
+     *  </tr>
+     *  <tr>
+     *    <td>namedHandlers</td>
+     *    <td>Object</td>
+     *    <td>填充表单项指定名称处理器, 优先级高于beforeHandle.<br>
+     *        Key : {String} 表单项名称<br>
+     *        Value : {Function} 处理器. 参数 : {item, value}; 返回值: {Boolean}
+     *        false-终止当前表单回填<br>
+     *    </td>
+     *  </tr>
+     * </table>
      */
     this.backfill = function(conf) {
-        log("Backfill form data:[" + JSON.stringify(conf) + "]");
-        conf = (conf || {});
-        var formData = (conf[KEYS.backfill.PARAMETERS.FORM_DATA]);
-        if (!(formData instanceof Object)) {
-            log("Invalid form-data:" + formData + ".");
-            return;
-        }
+      log("Backfill form data:[" + JSON.stringify(conf) + "]");
+      conf = (conf || {});
+      var formData = (conf[KEYS.backfill.PARAMETERS.FORM_DATA])||{};
 
-        // 注册回填处理器
-        var events = {};
-        events[KEYS.backfill.HANDLERS.NAMED_HANDLERS] = conf[KEYS.backfill.HANDLERS.NAMED_HANDLERS];
-        events[KEYS.backfill.HANDLERS.BEFORE_HANDLER] = conf[KEYS.backfill.HANDLERS.BEFORE_HANDLER];
-        setBackfillEvents(events);
+      // 注册回填处理器
+      var events = {};
+      events[KEYS.backfill.HANDLERS.NAMED_HANDLERS] = conf[KEYS.backfill.HANDLERS.NAMED_HANDLERS];
+      events[KEYS.backfill.HANDLERS.BEFORE_HANDLER] = conf[KEYS.backfill.HANDLERS.BEFORE_HANDLER];
+      setBackfillEvents(events);
 
-        // 迭代表单项缓存
-        var formControls = $thisObj.getNamedFormControl();
-        formControls.each(function(item) {
-            // 获取表单项name属性
-            // 通过name属性在formData中获取需要回填的值
-            var name = item.attr(KEYS.ATTRIBUTE.NAME);
-            var val = OgnlUtil.instance.getValue(formData, name);
+      // 迭代表单项缓存
+      var formControls = $thisObj.getNamedFormControl();
+      Utils.each(formControls, function(item) {
+        // 获取表单项name属性
+        // 通过name属性在formData中获取需要回填的值
+        var name            = item.attr(KEYS.ATTRIBUTE.NAME),
+            val             = OgnlUtil.instance.getValue(formData, name),
 
             // 获取数据处理器 > 处理数据
-            var dataHandlerName = item.attr(KEYS.backfill.ATTRIBUTES.DATA_HANDLER);
-            var dataHandler = config.dataHandlers[dataHandlerName];
-            isFn(dataHandler) && (val = dataHandler(item, val));
+            dataHandlerName = item.attr(KEYS.backfill.ATTRIBUTES.DATA_HANDLER),
+            dataHandler     = config.dataHandlers[dataHandlerName];
+        Validator.isFunction(dataHandler) && (val=dataHandler(item, val));
 
-            // 如果找到命名的回填前置处理器 > 调用前置处理器
-            // 如果没找到命名的回填前置处理器, 执行统一前置处理器
-            // 校验前置处理器是否阻止当前表单回填
-            var handler = config.events.backfill[KEYS.backfill.HANDLERS.NAMED_HANDLERS][name];
-            handler = (isFn(handler) ? handler : config.events.backfill.beforeHandler);
-            if (isFn(handler) && (false == (handler(item, val)))) { return true; }
+        // 如果找到命名的回填前置处理器 > 调用前置处理器
+        // 如果没找到命名的回填前置处理器, 执行统一前置处理器
+        // 校验前置处理器是否阻止当前表单回填
+        var handler = config.events.backfill[KEYS.backfill.HANDLERS.NAMED_HANDLERS][name];
+        handler = (Validator.isFunction(handler) ? handler : config.events.backfill.beforeHandler);
+        if (Validator.isFunction(handler) && (false == (handler(item, val)))) { return true; }
 
-            // 调用函数为表单项设值
-            setItemValue(item, val);
-        });
+        // 调用函数为表单项设值
+        setItemValue(item, val);
+      });
     }
 
     // 为表单项设值
     function setItemValue(item, value) {
-        if (undefined == value || null == value) return;
-        var tagName = item[0].tagName.toUpperCase();
-        switch (tagName) {
-        case "SELECT":
-            // 这里可以控制如果找不到对应的数据项时, 可以添加当前值对应的 OPTION
-            // 关于 multiple 的问题, 已被 $.val() 处理过
-        case "TEXTAREA":
-            item.val(value);
-            break;
-        case "INPUT":
-            var iptType = item.attr(KEYS.ATTRIBUTE.INPUT_TYPE).toUpperCase();
-            if (FINAL_VALUE.INPUT_TYPE_RADIO == iptType || FINAL_VALUE.INPUT_TYPE_CHECKBOX == iptType) {
-                setChose(item, value);
-            } else {
-                item.val(value);
-            }
-            break;
-        default:
-            log("Can't support form-control:" + tagName + ".");
-            break;
-        }
+      if (null==value) value="";
+      var tagName = item[0].tagName.toUpperCase();
+      switch (tagName) {
+      case "SELECT":
+        // 这里可以控制如果找不到对应的数据项时, 可以添加当前值对应的 OPTION
+        // 关于 multiple 的问题, 已被 $.val() 处理过
+      case "TEXTAREA":item.val(value); break;
+      case "INPUT":
+        var iptType = item.attr(KEYS.ATTRIBUTE.INPUT_TYPE).toUpperCase();
+        if (FINAL_VALUE.INPUT_TYPE_RADIO==iptType || FINAL_VALUE.INPUT_TYPE_CHECKBOX==iptType) setChose(item, value);
+        else item.val(value);
+        break;
+      default: log("Can't support form-control:" + tagName + "."); break;
+      }
     }
 
     // 设置复选(单选)框选中
     function setChose(item, value) {
-        var checked = false, lawfulVal = (undefined != value && null != value);
-        if (lawfulVal) {
-            (!(value instanceof Array)) && (value = [value]);
-            checked = (-1 != value.indexOf(item.val()) && !item.is(":checked"));
-        }
-        item.prop("checked", checked);
+      var checked   = false, 
+          lawfulVal = (null!=value);
+      if (lawfulVal) {
+        Validator.isNotArray(value) && (value=[value]);
+        Utils.each(value, function(v){
+          var val = item.val();
+          checked = (val==v);
+          if (checked) return false;
+        });
+      }
+      item.prop("checked", checked);
     }
 
     // 日志记录
@@ -761,52 +794,47 @@ function Form(formContainer, debug) {
 
     // 准备就绪后, 执行初始化函数
     (function() {
-        /** true-开启调试模式 */
-        $thisObj.debug = !!debug;
-        if ($thisObj.debug) {
-            $thisObj.KEYS = KEYS;
-            $thisObj.FINAL_VALUE = FINAL_VALUE;
-            $thisObj.config = config;
-        }
+      /** true-开启调试模式 */
+      $thisObj.debug = !!debug;
+      if ($thisObj.debug) {
+        $thisObj.KEYS = KEYS;
+        $thisObj.FINAL_VALUE = FINAL_VALUE;
+        $thisObj.config = config;
+      }
 
-        /** 表单容器 */
-        $thisObj.container = $(formContainer);
+      /** 表单容器 */
+      $thisObj.container = $(formContainer);
 
-        /** 表单项 */
-        $thisObj.formItems = {
-            singleValItems: null,
-            repeatableItems: null,
-            isEmpty: function() {
-                var emptySingleItems = (this.singleValItems && this.singleValItems.size());
-                var emptyRepeatItems = (this.repeatableItems && this.repeatableItems.size());
-                return !(emptySingleItems && emptyRepeatItems);
-            },
-            _summary: "表单项缓存列表"
+      /** 表单项 */
+      $thisObj.formItems = {
+        singleValItems: null,
+        repeatableItems: null,
+        isEmpty: function() {
+          var emptySingleItems = (this.singleValItems && this.singleValItems.size()),
+              emptyRepeatItems = (this.repeatableItems && this.repeatableItems.size());
+          return !(emptySingleItems && emptyRepeatItems);
+        },
+        _summary: "表单项缓存列表"
+      };
+
+      // 注册自动事件
+      config.autoEvents.register();
+
+      if (!Form.dirCreated) {
+        Form.dirCreated = true;
+        Form.debugInstance = new Form($(document), true);
+        Form.debugInstance.KEYS = KEYS;
+        Form.debugInstance.FINAL_VALUE = FINAL_VALUE;
+        Form.debugInstance.config = config;
+        Form.dir = {
+          KEYS    : Form.debugInstance.KEYS,
+          config  : Form.debugInstance.config
         };
-
-        // 注册自动事件
-        config.autoEvents.register();
-
-        if (!Form.dirCreated) {
-            Form.dirCreated = true;
-            Form.debugInstance = new Form($(document), true);
-            Form.debugInstance.KEYS = KEYS;
-            Form.debugInstance.FINAL_VALUE = FINAL_VALUE;
-            Form.debugInstance.config = config;
-            Form.dir = {
-                KEYS: Form.debugInstance.KEYS,
-                config: Form.debugInstance.config
-            };
-        }
+      }
     })();
 
     log("Create form instance.");
     return this;
 }
 
-if (typeof jQuery === "undefined") { throw Error("jquery-form requires jQuery"); }
-(function($) {
-    $.fn.form = function(debug) {
-        return new Form($(this), debug);
-    };
-})($);
+(function($){$.fn.form = function(debug){return new Form($(this), debug);};})($);

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>表单测试</title>
+  <script type="text/javascript" src="../../jquery-1.10.2.js"></script>
+  <script type="text/javascript" src="../../common-utils/Utils.js"></script>
+  <script type="text/javascript" src="../Form.js"></script>
+  <style type="text/css">
+    .bdr {border:1px solid #999; width:80%; margin:0 auto; padding:15px; position:relative;}
+    select {min-width:20%; padding:10px;}
+    p>label:nth-child(1) {width:180px; display:inline-block; text-align:right;}
+    .result {resize:none; position:absolute; right:0; top:0; width:30%; height:300px; border:1px solid #F00; margin:0; background:#EEE; z-index:999;}
+    .err{border:1px solid #F00;}
+  </style>
+</head>
+<body>
+  <div class="get-data bdr">
+    <textarea class="result" id="formDataResult" cols="30" rows="10"></textarea>
+    <h2>表单数据获取</h2>
+    <p>
+      <label for="get-text">text : </label>
+      <input type="text" name="text" id="get-text" 
+        regexp="/.+/" regexp-error="必填"/>
+    </p>
+    <p>
+      <label for="get-password">password : </label>
+      <input type="password" name="password" id="get-password" />
+    </p>
+    <p>
+      <label>checkbox : </label>
+      <label for="get-checkbox1"><input type="checkbox" name="checkbox" id="get-checkbox1" value="1" />checkbox 1</label>
+      &emsp;
+      <label for="get-checkbox2"><input type="checkbox" name="checkbox" id="get-checkbox2" value="2" />checkbox 2</label>
+    </p>
+    <p>
+      <label>radio : </label>
+      <label for="get-radio1"><input type="radio" name="radio" id="get-radio1" value="1" />radio 1</label>
+      &emsp;
+      <label for="get-radio2"><input type="radio" name="radio" id="get-radio2" value="2" />radio 2</label>
+    </p>
+    <p>
+      <label for="get-select1">select single : </label>
+      <select name="select" id="get-select1">
+        <option value="1">option1</option>
+        <option value="2">option2</option>
+        <option value="3" selected="selected">option3</option>
+        <option value="4">option4</option>
+        <option value="5">option5</option>
+      </select>
+    </p>
+    <p>
+      <label for="get-select2">select multi : </label>
+      <select name="selectMulti" id="get-select2" multiple="multiple" size="3">
+        <option value="1">option1</option>
+        <option value="2">option2</option>
+        <option value="3">option3</option>
+        <option value="4">option4</option>
+        <option value="5">option5</option>
+      </select>
+    </p>
+    <p>
+      <label for="get-textarea">textarea : </label>
+      <textarea name="textarea" id="get-textarea" cols="30" rows="10"></textarea>
+    </p>
+    <p>
+      <button id="getData">Get Data</button>
+      <button id="validate">Validate</button>
+      <button id="backfill">Backfill</button>
+      <button id="clean">Clean</button>
+    </p>
+  </div>
+  <script type="text/javascript">
+  $(function(){
+    var form   = new Form($(".get-data")),
+        result = $("#formDataResult");
+    $("#getData").click(function(){
+      var data = form.getData();
+      result.val(JSON.stringify(data).replace("{", "{\n").replace("}","\n}"));
+    });
+    $("#validate").click(function(){
+      form.validate({
+        validAll : true,
+        validSuccess : function(item, val){item.removeClass("err").removeAttr("title")},
+        validFailed  : function(item, val, errMsg){item.addClass("err").attr("title", errMsg)}
+      });
+    });
+    $("#backfill").click(function(){
+      var data = eval("("+result.val()+")");
+      form.backfill({formData:data});
+    });
+    $("#clean").click(function(){
+      form.recover();
+    });
+  });
+  </script>
+</body>
+</html>

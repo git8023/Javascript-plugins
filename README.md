@@ -1,7 +1,7 @@
 # Javascript-plugins 
  * [轮播(slider)](#横幅轮播) 
  * [滑动增强(iscroll-probe-enhance)](#滑动增强)
- * [表单(form)](https://github.com/git8023/jQuery-Form-Util)  
+ * [表单(form)](#表单)  
  * 布局  
     * [上下布局(UDLayout)](#上下布局)  
     * [左右布局(UDLayout)](#左右布局)  
