@@ -8,6 +8,7 @@
     * [布局示例](#布局示例)  
  * [侧边栏 (Sidebar)](#侧边栏 )
  * [数据网格 (DataGrid)](#数据网格)
+ * [异步加载管理 (AjaxHistoryUtil)] (#异步加载管理)
 
 # 横幅轮播  
  * 仅仅作为展示之用时, 可使用`jQuery`方式加载横幅  
@@ -580,8 +581,30 @@ closed|-/-|-/-|侧边栏关闭后
 
   方法名 | 参数 | 返回值 | 说明
   ---- | ---- | ---- | ----
-registerEvents | 参照 :表单校验事件配 | {this} | 事件注册
-getData | refreshCached{Boolean}-刷新表单项缓存 | {this} | 表单对象
-validate | validConf | {Boolean}-true:通过, false-失败 | 表单校验
-recover | -/- | -/- | 清空表单项, 恢复至初始状态
-backfill | formData{Object}-表单数据<br>beforeHandler{Function}-填充表单项统一前置处理器<br><br>namedHandlers{Object}-填充表单项指定名称处理器, 优先级高于beforeHandle<br>Key : {String} 表单项名称<br>Value : {Function} 处理器. 参数 : {item, value}; <br>返回值:false-终止当前表单回填 | -/- | 表单数据回填
+  registerEvents | 参照 :表单校验事件配 | {this} | 事件注册
+  getData | refreshCached{Boolean}-刷新表单项缓存 | {this} | 表单对象
+  validate | validConf | {Boolean}-true:通过, false-失败 | 表单校验
+  recover | -/- | -/- | 清空表单项, 恢复至初始状态
+  backfill | formData{Object}-表单数据<br>beforeHandler{Function}-填充表单项统一前置处理器<br><br>namedHandlers{Object}-填充表单项指定名称处理器, 优先级高于beforeHandle<br>Key : {String} 表单项名称<br>Value : {Function} 处理器. 参数 : {item, value}; <br>返回值:false-终止当前表单回填 | -/- | 表单数据回填
+
+  * 异步加载管理
+
+  用于ajax加载的页面支持浏览器前进/后退功能
+
+  ```javascript
+  // 注册需要监控的hash值
+  // hash     - 需要监控的hash值
+  // handler  - 处理程序
+  // coverage - 
+  AjaxHistoryUtils.instance.registerHandler(hash, function(curr, pre){
+
+    // 在浏览器地址栏hash值发生变化时, 
+    // 如果与指定的 href相同, 
+    // 就会执行当前函数
+    $("#ctt").load(curr);
+  }, coverage, context);
+
+  // 注销指定hash监控
+  AjaxHistoryUtils.instance.unregister(hash);
+  ```
+  
