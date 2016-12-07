@@ -589,7 +589,7 @@ closed|-/-|-/-|侧边栏关闭后
 
   * 异步加载管理
 
-  用于ajax加载的页面支持浏览器前进/后退功能
+  用于ajax加载的页面支持浏览器前进/后退功能, 详情查看[示例代码](https://github.com/git8023/Javascript-plugins/tree/master/src/common-utils/ajaxHistoryUtil)
 
   ```javascript
   // 注册需要监控的hash值
