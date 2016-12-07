@@ -499,5 +499,30 @@ closed|-/-|-/-|侧边栏关闭后
     }
   });
   ```
-  
-  
+
+# 表单
+
+  * 获取表单对象
+
+  ```javascript
+  // formCtnr - form container, 表单容器, 不限于FORM控件可以是任意元素
+  // debug    - 是否进入Debug模式, 在Debug模式中, 将在浏览器控制台打印一些有助于调试的信息
+  var form = Form(formCtnr, debug);
+  ```
+
+  * 获取表单数据
+
+  ```javascript
+  // refreshCache - 是否刷新已缓存的表单项, 推荐仅在表单项或name属性值发生变化时使用true
+  var formData = form.getData(refreshCache);
+  // 表单数据对象说明:
+  // Key    - {String} 表单控件name属性值, name属性非法时将排除该值
+  // Value  - {String|Array} 典型表单控件仅包含单个值, 当包含input[type=checkbox]或select[multiple]时, 值为数组类型
+  ```
+
+  * 表单校验
+
+  ```javascript
+  // 表单校验依赖于正则表达式, 校验结果依赖于`validConf`指定
+  var validPass = form.validate(validConf);
+  ```
