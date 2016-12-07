@@ -527,7 +527,7 @@ closed|-/-|-/-|侧边栏关闭后
   var validPass = form.validate(validConf);
   ```
 
-  * 表单校验配置
+  * 表单校验HTML配置
 
   ```html
   <input 
@@ -548,6 +548,7 @@ closed|-/-|-/-|侧边栏关闭后
   ```
 
   配置说明
+
   属性名 | 属性值 | 说明
   ---- | ---- | ----
   regexp | {Regexp} | 正则表达式校验, 示例: regexp="/^.+$/"
@@ -558,4 +559,8 @@ closed|-/-|-/-|侧边栏关闭后
   not-eq-to-error | {String} | 异同值校验错误消息, 示例: not-eq-to-error="密码不能与账户名相同"
   remote-url | {String} | 远程校验, 属性值为远程校验地址, 示例: remote-url="exists/account.do"
 
+  * 表单校验`validate()`函数参数说明
 
+  参数名 | 类型 | 取值范围 | 说明
+  --- | --- | --- | ---
+  
