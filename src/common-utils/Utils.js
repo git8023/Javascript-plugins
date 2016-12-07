@@ -478,10 +478,7 @@ function LoadingWin() {
     _conf.screen.appendTo(_conf.ctnr).show();
   };
 
-  /**
-   * 隐藏
-   * @returns {this}
-   */
+  /** 隐藏 */
   this.hide = function(){_conf.screen.hide();};
 
   return this;
@@ -529,6 +526,7 @@ function AjaxHistoryUtils() {
 }
 AjaxHistoryUtils.instance = new AjaxHistoryUtils();
 
+/** OGNL表达式工具 */
 function OgnlUtil() {
   if (!(this instanceof arguments.callee)) return new arguments.callee();
   var $thisObj = this;
