@@ -495,12 +495,13 @@ function AjaxHistoryUtils() {
 
   /**
    * 注册
-   * @param hashQuery {String} 目标地址
+   * @param hashQuery {String} 带有Hash参数的目标地址
    * @param handler {Function} 处理函数, 参数:preUrl,cu
    * @param coverage {Boolean} 是否覆盖已存在的处理器
    * @param context {Object} 处理函数执行上下文, 默认使用window
    */
   this.registerHandler = function(hashQuery, handler, coverage, context) {
+    coverage = coverage||(undefined==coverage);
     if (Validator.isNotString(hashQuery)) throw new Error("Invalid paramters[hashQuery], must be instance of String");
     Validator.isNotObject(context) && (content=null);
     if (Validator.isNotFunction(handler)) throw new Error("Invalid parameters[handler], must be instace of Function");
@@ -517,9 +518,11 @@ function AjaxHistoryUtils() {
     var hashQuery = location.hash,
         handler   = _handlers[hashQuery];
     if (!handler) return;
-    var fn    = handler[_conf.HANDLER],
-        ctxt  = handler[_conf.CONTEXT];
-    Validator.isFunction(fn) && fn.call(ctxt, e.newURL, e.oldURL);
+    var fn      = handler[_conf.HANDLER],
+        ctxt    = handler[_conf.CONTEXT],
+        newHash = /#/.test(e.newURL)?e.newURL.match(/#(.+)$/)[1]:null,
+        oldHash = /#/.test(e.oldURL)?e.oldURL.match(/#(.+)$/)[1]:null;
+    Validator.isFunction(fn) && fn.call(ctxt, newHash, oldHash);
   });
 
   return this;
