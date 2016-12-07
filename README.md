@@ -559,8 +559,19 @@ closed|-/-|-/-|侧边栏关闭后
   not-eq-to-error | {String} | 异同值校验错误消息, 示例: not-eq-to-error="密码不能与账户名相同"
   remote-url | {String} | 远程校验, 属性值为远程校验地址, 示例: remote-url="exists/account.do"
 
-  * 表单校验`validate()`函数参数说明
+  * 表单校验`validate()`函数参数说明(值配置)
 
   参数名 | 类型 | 取值范围 | 说明
   --- | --- | --- | ---
-  
+  refreshCached | {Boolean} | true/false | 是否刷新表单项缓存
+  validAll | {Boolean} | true/false | true-总是验证所有表单项,<br>false-遇到验证失败时停止验证.
+
+
+  * 表单校验`validate()`函数参数说明(事件配置)
+
+  事件名 | 参数 | 返回值 | 说明
+  ---- | ---- | ---- | ----
+  validSuccess | item-表单控件, value-值 | -/- | 验证通过回调函数
+  validFailed | item-表单控件, value-值, errMsg-错误消息 | -/- | 验证失败回调函数
+  remoteHandler | item-表单控件, resultData-服务器响应数据 | -/- | 远程验证回调函数
+  validCompleted | validResult-校验结果,validate()返回值与当前结果一致 | -/- | 验证完成后回调函数
