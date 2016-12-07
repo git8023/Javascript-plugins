@@ -670,12 +670,9 @@ function Form(formContainer, debug) {
      */
     this.recover = function(){
       $thisObj.container.find("[name]").each(function(){
-        var $this = $(this);
-        $this.val(this.defaultValue);
-        var tagName = this.tagName;
-        if (/^SELECT$/ig.test(tagName)) {
+        var $this = $(this).val(this.defaultValue);
+        if (/^SELECT$/ig.test(this.tagName))
           $this.val($this.find("[selected]").val());
-        }
 
         var iptType = $this.attr("type"),
             cbkBox  = /(RADIO|CHECKBOX)/i.test(iptType),
