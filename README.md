@@ -526,3 +526,36 @@ closed|-/-|-/-|侧边栏关闭后
   // 表单校验依赖于正则表达式, 校验结果依赖于`validConf`指定
   var validPass = form.validate(validConf);
   ```
+
+  * 表单校验配置
+
+  ```html
+  <input 
+      type        = "text" 
+      name        = "text"
+
+      regexp        = "{Regexp}"
+      regexp-error  = "{RegexpErrorMessage}"
+
+      eq-to       = "{jQuerySelector}"
+      eq-to-error = "{equalToErrorMessage}"
+
+      not-eq-to       = "{jQuerySelector}"
+      not-eq-to-error = "{notEqualToErrorMessage}"
+
+      remote-url  = "{RemoteUrl}"
+    />
+  ```
+
+  配置说明
+  属性名 | 属性值 | 说明
+  ---- | ---- | ----
+  regexp | {Regexp} | 正则表达式校验, 示例: regexp="/^.+$/"
+  regexp-error | {String} | 正则表达式校验错误消息, 示例: regexp-error="当前值不能为空"
+  eq-to | {String} | 相同值校验, 属性值为`jQuerySelector`, 示例: eq-to="[name='password']:first"
+  eq-to-error | {String} | 相同值校验错误消息, 示例: not-eq-to="两次密码输入不一致"
+  not-eq-to | {String} | 异同值校验, 属性值为`jQuerySelector`, 示例: not-eq-to="[name='account']:first"
+  not-eq-to-error | {String} | 异同值校验错误消息, 示例: not-eq-to-error="密码不能与账户名相同"
+  remote-url | {String} | 远程校验, 属性值为远程校验地址, 示例: remote-url="exists/account.do"
+
+
