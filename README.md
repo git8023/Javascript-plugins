@@ -584,4 +584,4 @@ registerEvents | 参照 :表单校验事件配 | {this} | 事件注册
 getData | refreshCached{Boolean}-刷新表单项缓存 | {this} | 表单对象
 validate | validConf | {Boolean}-true:通过, false-失败 | 表单校验
 recover | -/- | -/- | 清空表单项, 恢复至初始状态
-backfill | formData{Object}-表单数据<br>beforeHandler{Function}-填充表单项统一前置处理器<br><br>namedHandlers{Object}-填充表单项指定名称处理器, 优先级高于beforeHandle<br>Key : {String} 表单项名称<br>Value : {Function} 处理器. 参数 : {item, value}; <br>返回值:false-终止当前表单回填
+backfill | formData{Object}-表单数据<br>beforeHandler{Function}-填充表单项统一前置处理器<br><br>namedHandlers{Object}-填充表单项指定名称处理器, 优先级高于beforeHandle<br>Key : {String} 表单项名称<br>Value : {Function} 处理器. 参数 : {item, value}; <br>返回值:false-终止当前表单回填 | -/- | 表单数据回填
