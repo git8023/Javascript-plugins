@@ -1,6 +1,6 @@
 # Javascript-plugins 
  * [轮播(slider)](#横幅轮播) 
- * [滑动增强(iscroll-probe-enhance)](#滑动增强)
+ * [滑动增强(iscroll-probe-enhance)](#滑动增强针对iscrolliscroll-probejs---513)
  * [表单(form)](#表单)  
  * 布局  
     * [上下布局(UDLayout)](#上下布局)  
