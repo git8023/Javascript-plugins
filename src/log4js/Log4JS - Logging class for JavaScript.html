@@ -1,0 +1,62 @@
+
+<!-- saved from url=(0030)http://log4js.sourceforge.net/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=GBK">
+	<title>Log4JS - Logging class for JavaScript</title>
+</head>
+<body>
+<h1>Log4JS</h1>
+<hr>
+<p>
+Log4JS is a logging class in similar spirit to <a href="http://logging.apache.org/">Apache Logging</a>, specifically <a href="http://logging.apache.org/log4j">Log4J</a>.  Log4JS is a javascript class that can be used to log messages to a customizable logger class.  The primary use for this is in debugging javascript code.
+</p>
+<p>
+Four logger classes are included: alert, write, popup, and console.  For more information, please see the <a href="http://log4js.sourceforge.net/jsdoc/">docs</a>.
+</p>
+<p>
+Example usage: <a href="http://log4js.sourceforge.net/test.html">test.html</a>
+</p><pre>&lt;html&gt;
+  &lt;head&gt;
+      &lt;script src="log4js.js" type="text/javascript"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+      Log4JS test...&lt;hr/&gt;
+      &lt;script&gt;
+          // Setup log objects
+          //
+          //  log object of priority debug and the popup logger
+          var log = new Log(Log.DEBUG, Log.popupLogger);
+          //  log object of priority warn and the alert logger
+          var log2 = new Log(Log.WARN, Log.alertLogger);
+          //  log object of priority debug and the console logger (Safari)
+	  var log3 = new Log(Log.DEBUG, Log.consoleLogger);
+			  
+          log.debug('foo1');     // will popup a new window and log 'foo'
+          log.warn('bar1');      // will add a new 'bar' message to the popup
+          log2.debug('foo2');    // will do nothing (Log object's priority threshold is WARN)
+          log2.warn('bar2');     // will display a javascript alert with the string 'bar'
+          log3.debug('foo3');    // will log message to Safari console or existing popup 
+          log3.warn('bar3');     // same
+          
+          log.info(Log.dumpObject(new Array('apple','pear','orange','banana')));
+      &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+		       
+<p></p>
+<hr>
+<a href="http://log4js.sourceforge.net/log4js.js">log4js.js</a><br>
+<a href="http://log4js.sourceforge.net/log4js-mini.js">minimized log4js.js</a><br>
+<a href="http://log4js.sourceforge.net/jsdoc/">Source Code Documentation</a><br>
+<a href="http://sourceforge.net/projects/log4js/">SourceForge project</a>
+<br>
+<br>
+<a href="http://sourceforge.net/"><img src="./Log4JS - Logging class for JavaScript_files/sflogo.php" width="125" height="37" border="0" alt="SourceForge.net Logo"></a>
+<br>
+<br>
+&#169; 2005-2006 - Marcus Breese
+<br>
+Licensed under the Apache License, Version 2.0
+
+
+<st-div id="__selection-translator__"> <st-div class="__st-box__" style="display: none; position: fixed; z-index: 99999; left: 0px; top: 0px; transform: translateX(408px) translateY(415px);"> <st-header> <st-span class="st-icon-pin" title="固定"></st-span> <st-span class="st-icon-down-open" title="展开"></st-span> <st-span class="st-icon-cog" title="设置"></st-span> </st-header> <st-div class="__query-form__" style="display: none;"> <st-div> <textarea placeholder="输入要翻译的句子或单词"></textarea> </st-div> <st-div> <select> <option value="">自动判断</option> <option value="zh">中文</option><option value="zh-CN">中文(简体)</option><option value="zh-HK">中文(香港)</option><option value="zh-TW">中文(繁体)</option><option value="en">英语</option><option value="ja">日语</option><option value="ko">朝鲜语</option><option value="de">德语</option><option value="fr">法语</option><option value="ru">俄语</option><option value="th">泰语</option><option value="af">南非语</option><option value="ar">阿拉伯语</option><option value="az">阿塞拜疆语</option><option value="be">比利时语</option><option value="bg">保加利亚语</option><option value="ca">加泰隆语</option><option value="cs">捷克语</option><option value="cy">威尔士语</option><option value="da">丹麦语</option><option value="dv">第维埃语</option><option value="el">希腊语</option><option value="eo">世界语</option><option value="es">西班牙语</option><option value="et">爱沙尼亚语</option><option value="eu">巴士克语</option><option value="fa">法斯语</option><option value="fi">芬兰语</option><option value="fo">法罗语</option><option value="gl">加里西亚语</option><option value="gu">古吉拉特语</option><option value="he">希伯来语</option><option value="hi">印地语</option><option value="hr">克罗地亚语</option><option value="hu">匈牙利语</option><option value="hy">亚美尼亚语</option><option value="id">印度尼西亚语</option><option value="is">冰岛语</option><option value="it">意大利语</option><option value="ka">格鲁吉亚语</option><option value="kk">哈萨克语</option><option value="kn">卡纳拉语</option><option value="kok">孔卡尼语</option><option value="ky">吉尔吉斯语</option><option value="lt">立陶宛语</option><option value="lv">拉脱维亚语</option><option value="mi">毛利语</option><option value="mk">马其顿语</option><option value="mn">蒙古语</option><option value="mr">马拉地语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="nb">挪威语(伯克梅尔)</option><option value="nl">荷兰语</option><option value="ns">北梭托语</option><option value="pa">旁遮普语</option><option value="pl">波兰语</option><option value="pt">葡萄牙语</option><option value="qu">克丘亚语</option><option value="ro">罗马尼亚语</option><option value="sa">梵文</option><option value="se">北萨摩斯语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sq">阿尔巴尼亚语</option><option value="sv">瑞典语</option><option value="sw">斯瓦希里语</option><option value="syr">叙利亚语</option><option value="ta">泰米尔语</option><option value="te">泰卢固语</option><option value="tl">塔加路语</option><option value="tn">茨瓦纳语</option><option value="tr">土耳其语</option><option value="ts">宗加语</option><option value="tt">鞑靼语</option><option value="uk">乌克兰语</option><option value="ur">乌都语</option><option value="uz">乌兹别克语</option><option value="vi">越南语</option><option value="xh">班图语</option><option value="zu">祖鲁语</option> </select> <st-div class="__exchange__"> <st-span class="st-icon-exchange"></st-span> </st-div> <select> <option value="">自动选择</option> <option value="zh">中文</option><option value="zh-CN">中文(简体)</option><option value="zh-HK">中文(香港)</option><option value="zh-TW">中文(繁体)</option><option value="en">英语</option><option value="ja">日语</option><option value="ko">朝鲜语</option><option value="de">德语</option><option value="fr">法语</option><option value="ru">俄语</option><option value="th">泰语</option><option value="af">南非语</option><option value="ar">阿拉伯语</option><option value="az">阿塞拜疆语</option><option value="be">比利时语</option><option value="bg">保加利亚语</option><option value="ca">加泰隆语</option><option value="cs">捷克语</option><option value="cy">威尔士语</option><option value="da">丹麦语</option><option value="dv">第维埃语</option><option value="el">希腊语</option><option value="eo">世界语</option><option value="es">西班牙语</option><option value="et">爱沙尼亚语</option><option value="eu">巴士克语</option><option value="fa">法斯语</option><option value="fi">芬兰语</option><option value="fo">法罗语</option><option value="gl">加里西亚语</option><option value="gu">古吉拉特语</option><option value="he">希伯来语</option><option value="hi">印地语</option><option value="hr">克罗地亚语</option><option value="hu">匈牙利语</option><option value="hy">亚美尼亚语</option><option value="id">印度尼西亚语</option><option value="is">冰岛语</option><option value="it">意大利语</option><option value="ka">格鲁吉亚语</option><option value="kk">哈萨克语</option><option value="kn">卡纳拉语</option><option value="kok">孔卡尼语</option><option value="ky">吉尔吉斯语</option><option value="lt">立陶宛语</option><option value="lv">拉脱维亚语</option><option value="mi">毛利语</option><option value="mk">马其顿语</option><option value="mn">蒙古语</option><option value="mr">马拉地语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="nb">挪威语(伯克梅尔)</option><option value="nl">荷兰语</option><option value="ns">北梭托语</option><option value="pa">旁遮普语</option><option value="pl">波兰语</option><option value="pt">葡萄牙语</option><option value="qu">克丘亚语</option><option value="ro">罗马尼亚语</option><option value="sa">梵文</option><option value="se">北萨摩斯语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sq">阿尔巴尼亚语</option><option value="sv">瑞典语</option><option value="sw">斯瓦希里语</option><option value="syr">叙利亚语</option><option value="ta">泰米尔语</option><option value="te">泰卢固语</option><option value="tl">塔加路语</option><option value="tn">茨瓦纳语</option><option value="tr">土耳其语</option><option value="ts">宗加语</option><option value="tt">鞑靼语</option><option value="uk">乌克兰语</option><option value="ur">乌都语</option><option value="uz">乌兹别克语</option><option value="vi">越南语</option><option value="xh">班图语</option><option value="zu">祖鲁语</option> </select> </st-div> <st-div> <select> <option value="YouDao">有道翻译</option> <option value="BaiDu">百度翻译</option> <option value="Bing">必应翻译</option> <option value="Google">谷歌翻译</option> <option value="GoogleCN">谷歌翻译（国内）</option> </select> <st-div class="__action-list__"> <st-div class="__button__ __btn-translate__">翻译 <st-span class="st-icon-down-dir"></st-span> </st-div> <st-div class="__expand__"> <st-div class="__button__">朗读</st-div> <st-div class="__button__">复制</st-div> </st-div> </st-div> </st-div> </st-div> <st-div class="__translate-result__" style="display: none;">正在查询，请稍候……</st-div> <st-div class="__translate-result__"> <st-div style="display: none;"> <st-span></st-span> <st-span class="__retry__">重试</st-span> </st-div> <st-div> <st-div class="__phonetic__"> <st-span style="display: none;"></st-span> <st-span class="__copy-and-read__"> <st-span>朗读</st-span> <st-span style="display: none;">复制</st-span> </st-span> </st-div> <st-div style="display: none;"> <st-ul>  </st-ul> <st-div class="__copy-and-read__"> <st-span class="__copy-and-read__">复制</st-span> </st-div> </st-div> <st-div> <st-div>log4js是测井类类似精神Apache日志，特别是log4j。log4js是一个JavaScript类，可以用来记录信息可自定义记录器类。这主要用在调试JavaScript代码。</st-div><st-div>四类包括：报警，日志写，弹出窗口和控制台。有关更多信息，请参阅文件。</st-div> <st-div class="__copy-and-read__"> <st-span class="__copy-and-read__">朗读</st-span> <st-span class="__copy-and-read__">复制</st-span> </st-div> </st-div> </st-div> </st-div> <st-footer> <st-span>via <a target="_blank" href="http://fanyi.baidu.com/#auto/zh/Log4JS is a logging class in similar spirit to Apache Logging, specifically Log4J. Log4JS is a javascript class that can be used to log messages to a customizable logger class. The primary use for this is in debugging javascript code.Four logger classes are included: alert, write, popup, and console. For more information, please see the docs.">百度翻译</a></st-span> </st-footer> </st-div> <st-div class="__st-btn__" style="display: none; position: fixed; z-index: 99999; left: 0px; top: 0px; transform: translateX(408px) translateY(415px);">译</st-div> </st-div></body></html>
