@@ -1,0 +1,5 @@
+@CHARSET "UTF-8";
+* {padding:0; margin:0; list-style:none; box-sizing:border-box;}
+.design-container {height:100%; position:relative;}
+.design-container .layout-left{position:absolute; left:0; top:0; border:1px solid #F00;}
+.design-container .layout-right{position:absolute; right:0; top:0; border:1px solid #F00;}
