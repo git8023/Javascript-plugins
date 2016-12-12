@@ -330,17 +330,7 @@ var Utils = {
       hash = hash & hash;
     }
     return hash;
-  },
-
-  /**
-   * HTML转义
-   * @param s {String} 源
-   * @param espace {Boolean} true-转义, false-反转义
-   * @returns {String} 转义后字符串
-   */
-  espaceHTML : function(s, espace){
-    return espace?$("<i>").text(s).html():$("<i>").html(s).text();
-  },
+  }
 };
 
 /**
@@ -445,21 +435,6 @@ var ArrayUtil = {
       count ++;
       eIdx = count*length;
     }
-  },
-
-  /**
-   * 移除数据
-   * @param arr {Array} 数组
-   * @param val {Object} 需要移除的数据
-   * @param removeAll {Boolean} 移除全部相同数据
-   * @returns {Array} 移除数据后的新数组
-   */
-  remove : function(arr, val, removeAll){
-    if (Validator.isNotArray(arr)) throw new Error("Invalid parameters[arr], must be instance of Array");
-    var tmp = arr.slice(0),
-        idx = tmp.indexOf(val);
-    do {tmp.splice(idx, 1); idx=tmp.indexOf(val);} while (removeAll && (-1<idx));
-    return tmp;
   }
 };
 
