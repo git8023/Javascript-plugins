@@ -460,8 +460,24 @@ var $Utils = {
 
 /** 日志工具 */
 var Logger = {
-  debug : {
-    console : new Log(Log.DEBUG, Log.consoleLogger)
+  base : function(level, msg) {
+    var formattedNow  = Utils.dateFormat(new Date(), "[yyyy-MM-dd hh:mm:ss] "),
+        _caller       = arguments.callee.caller,
+        caller        = _caller?_caller.name:"window",
+        local         = "__LOCATION__",
+        msgLevel      = (level?"INFO":level),
+        logPrefix     = "["+local+"] ["+(caller||"Anonymous")+"] ["+formattedNow+"] - "+msgLevel,
+        printer       = (console?console.log:alert),
+        msg           = Validator.isObject(msg)?JSON.stringify(msg):msg;
+
+    try {
+      throw new Error();
+    } catch (e) {
+      var callerInfo = e.stack.match(/\n.*/g)[1];
+      callerInfo = callerInfo.match(/http[s]?:+.*[\d]/)[0];
+      logPrefix = logPrefix.replace(local, callerInfo);
+    }
+    printer(logPrefix + msg);
   }
 }
 
