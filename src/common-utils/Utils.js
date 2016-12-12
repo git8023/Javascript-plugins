@@ -13,7 +13,7 @@ var Validator = {
   isNotJQuery:function(obj){return !Validator.isJQuery(obj);},
 
   isString:function(str){return /^string$/i.test(typeof str);},
-  isNotString:function(str){return !Validator.isString(str);},
+  isNotString:function(str){return !Validator.isString(str);}, 
 };
 
 /** 通用工具 */
