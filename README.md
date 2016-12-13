@@ -1,7 +1,7 @@
 # Javascript-plugins 
  * Banner
     * [Banner 自动切换](#横幅轮播)
-    * [IScroll-Banner 仅滑动切换,支持放大查看单个项目, 推荐作为Banner详情使用](#IScroll-Banner)
+    * [IScroll-Banner 仅滑动切换,支持放大查看单个项目, 推荐作为Banner详情使用](#iscroll-banner)
  * [滑动增强(iscroll-probe-enhance)](#滑动增强针对iscrolliscroll-probejs---513)
  * [表单(form)](#表单)  
  * 布局  
@@ -94,29 +94,6 @@
   * 依赖
     * iscroll-zoom.js `v5.1.3`
     * jQuery 
-  * API使用
-  ```javascript
-  // 获取实例
-  var banner = IScrollBanner.instance;
-  // 或通过多实例方式获取
-  // var banner = IScrollBanner();
-  
-  // 注册事件
-  banner.registerEvents({
-    beforeAppend  : function(item, index){
-      // 过滤当前项
-      // return false;
-    },
-    afterAppend   : function(item, index){
-      // 返回false, 禁止当前项缩放
-      // return false;
-    }
-  });
-  
-  // 初始化
-  var imgSrcArr = ["1.png","2.png"];
-  banner.init(imgSrcArr);
-  ```
   * 事件说明
   
   事件名 | 参数 | 返回值 | 说明
@@ -124,6 +101,37 @@
    beforeAppend | item{jQuery} - 图片容器<br>index{Number} - 当前图片索引 | false - 过滤当前图片 | 图片项追加到容器之前
    afterAppend |  item{jQuery} - 图片容器<br>index{Number} - 当前图片索引 | false - 当前图片禁用缩放功能
    
+  * 方法说明
+  
+  方法名 | 参数 | 返回值 | 说明
+  --- | --- | --- | ---
+  registerEvents | 参考事件说明 | {IScrollBanner} | 事件注册
+  init | srcArr{Array} - 图片路径 | {IScrollBanner} | 初始化
+  destroy | -/- | -/- | 释放资源
+  
+  * 如何使用
+    ```javascript
+    // 获取实例
+    var banner = IScrollBanner.instance;
+    // 或通过多实例方式获取
+    // var banner = IScrollBanner();
+    
+    // 注册事件
+    banner.registerEvents({
+      beforeAppend  : function(item, index){
+        // 过滤当前项
+        // return false;
+      },
+      afterAppend   : function(item, index){
+        // 返回false, 禁止当前项缩放
+        // return false;
+      }
+    });
+    
+    // 初始化
+    var imgSrcArr = ["1.png","2.png"];
+    banner.init(imgSrcArr);
+    ```
    
   
 
