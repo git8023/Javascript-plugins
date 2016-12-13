@@ -1,8 +1,7 @@
 # Javascript-plugins 
-  * Banner
+ * Banner
     * [Banner 自动切换](#横幅轮播)
     * [IScroll-Banner 仅滑动切换,支持放大查看单个项目, 推荐作为Banner详情使用](#IScroll-Banner)
-
  * [滑动增强(iscroll-probe-enhance)](#滑动增强针对iscrolliscroll-probejs---513)
  * [表单(form)](#表单)  
  * 布局  
