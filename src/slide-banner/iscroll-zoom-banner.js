@@ -1,6 +1,7 @@
 /* iScroll-zoom.js: v5.1.3 github(https://github.com/git8023/Javascript-plugins) */
 /**
- * 可放大/滚动横幅
+ * 滚动横幅, 推荐用作查看而不是自动横幅滚动(自动横幅滚动可使用 /banner/Banner.js)
+ * @version v0.0.1
  */
 function IScrollBanner() {
   if (!(this instanceof arguments.callee)) return new arguments.callee();
@@ -17,6 +18,7 @@ function IScrollBanner() {
                     WRAPPER   : "___banner-wrapper",
                     SCROLL    : "___banner-scroll"
                   };
+  $thisObj.conf = _conf;
 
   /**
    * 初始化
@@ -29,9 +31,8 @@ function IScrollBanner() {
     _conf.$wrapper  = _conf.$ctnr.find("."+_style.WRAPPER);
     _conf.$scroll   = _conf.$ctnr.find("."+_style.SCROLL);
     Utils.eachValue(srcArr, function(src){
-      var item    = $("<li/>").css({"display":"inline-block", height:"100%"}).appendTo(_conf.$scroll),
-          imgCtnr = $("<div/>").css({width:"100%", height:"100%", overflow:"hidden", "text-align":"center"}).appendTo(item),
-          img     = $("<img/>").appendTo(imgCtnr);
+      var item    = $("<li/>").css({"display":"inline-block", height:"100%", "overflow":"hidden"}).appendTo(_conf.$scroll),
+          img     = $("<img/>").appendTo(item);
       img.load(function(){
         $(this).css((this.width<this.height)?"max-height":"max-width", "100%");
       }).attr({src:src});
@@ -45,18 +46,17 @@ function IScrollBanner() {
         wheelAction : 'zoom'
       }).on("zoomEnd", function(){
         var enableScroll = (1==this.scale);
-        if (enableScroll){initIscroll().scrollToElement(this.wrapper,0);return;}
+        if (enableScroll){initIscroll(time).scrollToElement(this.wrapper,0);return;}
         if (_conf.iscroll) {
           _conf.iscroll.destroy(); 
           _conf.iscroll=null;
-          console.log("destroy");
         }
       });
       _conf.zooms.push(zoom);
     });
 
     var screen = Utils.screen();
-    _conf.$ctnr.css({"height":screen.height, overflow:"hidden"});
+    _conf.$ctnr.css({"height":screen.height, overflow:"hidden", "z-index":"9999999"});
     _conf.$scroll.find(">li").css({"height":screen.height, overflow:"hidden", width:screen.width});
     _conf.$scroll.css({"width":screen.width*srcArr.length, "height":screen.height});
 
@@ -68,11 +68,13 @@ function IScrollBanner() {
 
   // 初始化外部滚动
   function initIscroll(){
-    return _conf.iscroll = new IScroll(_conf.$wrapper[0],{
+    _conf.iscroll = new IScroll(_conf.$wrapper[0],{
       scrollX     : true, 
       scrillY     : false, 
       snap        : true
     });
+
+    return _conf.iscroll;
   }
 
   // 模板
@@ -88,6 +90,7 @@ function IScrollBanner() {
   this.destroy = function(){
     _conf.$ctnr && _conf.$ctnr.remove();
     _conf.iscroll && _conf.iscroll.destroy();
+    $("body").rmeoveAttr("style");
   }
 
   return;

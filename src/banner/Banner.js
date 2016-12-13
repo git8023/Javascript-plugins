@@ -101,8 +101,7 @@ function Banner($ctnr, debug) {
         .click(function(){
           // 暂停
           var currIdx = $(this).index();
-          clearInterval(_conf.timer);
-          Validator.isFunction(_events.pause) && _events.pause.call($thisObj);
+          $thisObj.pause();
           scrollToNext(currIdx);
           actionIndex(currIdx);
           setTimeout($thisObj.play, _conf.pause);
@@ -136,6 +135,13 @@ function Banner($ctnr, debug) {
 
     return $thisObj;
   };
+
+  /** 暂停 */
+  this.pause = function(){
+    clearInterval(_conf.timer);
+    Validator.isFunction(_events.pause) && _events.pause.call($thisObj);
+    return $thisObj;
+  }
 
   /** 从控件中读取配置 */
   this.conf=function(){
