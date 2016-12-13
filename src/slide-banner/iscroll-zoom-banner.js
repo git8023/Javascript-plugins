@@ -56,6 +56,20 @@ function IScrollBanner() {
   };
 
   /**
+   * 从指定容器中初始化
+   * @param $imgContainer {jQuery} 图片容器
+   * @param filter {Function} 过滤器, 参数:$img, 返回值:false-过滤当前图片
+   * @returns {IScrollBanner}
+   */
+  this.initByContainer = function($imgContainer, filter){
+    var srcArr  = [],
+        ctnr    = $($imgContainer),
+        filter  = Validator.isFunction(filter)?filter:function(){};
+    ctnr.find("img").each(function(){(false!=filter.call(this, $(this))) && srcArr.push(this.src)});
+    return $thisObj.init(srcArr);
+  }
+
+  /**
    * 初始化
    * @param srcArr {Array} 图片列表
    * @returns {IScrollBanner}
