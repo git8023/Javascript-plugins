@@ -19,7 +19,14 @@
                   "2.jpg",
                   "3.jpg",
                  ];
-    IScrollBanner.instance.init(srcArr);
+    IScrollBanner.instance.registerEvents({
+      beforeAppend  : function(item, idx){
+        return 2!=idx;
+      },
+      afterAppend   : function(item, idx){
+        return 1!=idx;
+      }
+    }).init(srcArr);
   </script>
 </body>
 </html>

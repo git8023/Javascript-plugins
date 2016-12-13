@@ -1,5 +1,8 @@
 # Javascript-plugins 
- * [轮播(slider)](#横幅轮播) 
+  * Banner
+    * [Banner 自动切换](#横幅轮播)
+    * [IScroll-Banner 仅滑动切换,支持放大查看单个项目, 推荐作为Banner详情使用](#IScroll-Banner)
+
  * [滑动增强(iscroll-probe-enhance)](#滑动增强针对iscrolliscroll-probejs---513)
  * [表单(form)](#表单)  
  * 布局  
@@ -8,7 +11,7 @@
     * [布局示例](#布局示例)  
  * [侧边栏 (Sidebar)](#侧边栏 )
  * [数据网格 (DataGrid)](#数据网格)
- * [异步加载管理 (AjaxHistoryUtil)] (#异步加载管理)
+ * [异步加载管理 (AjaxHistoryUtil)](#异步加载管理)
 
 # 横幅轮播  
  * 仅仅作为展示之用时, 可使用`jQuery`方式加载横幅  
@@ -42,7 +45,7 @@
     $(".slider-container2").slider();
   });
  ```
- * OO方式使用, 指定监听事件
+ * 面向对象方式使用, 指定监听事件
  
  ```html
 <div style="width:50%; margin:10px auto; border:1px solid #F00">
@@ -87,6 +90,43 @@
     .play();
   });
   ```  
+
+# IScroll Banner
+  * 依赖
+    * iscroll-zoom.js `v5.1.3`
+    * jQuery 
+  * API使用
+  ```javascript
+  // 获取实例
+  var banner = IScrollBanner.instance;
+  // 或通过多实例方式获取
+  // var banner = IScrollBanner();
+  
+  // 注册事件
+  banner.registerEvents({
+    beforeAppend  : function(item, index){
+      // 过滤当前项
+      // return false;
+    },
+    afterAppend   : function(item, index){
+      // 返回false, 禁止当前项缩放
+      // return false;
+    }
+  });
+  
+  // 初始化
+  var imgSrcArr = ["1.png","2.png"];
+  banner.init(imgSrcArr);
+  ```
+  * 事件说明
+  
+  事件名 | 参数 | 返回值 | 说明
+   --- | --- | --- | --- 
+   beforeAppend | item{jQuery} - 图片容器<br>index{Number} - 当前图片索引 | false - 过滤当前图片 | 图片项追加到容器之前
+   afterAppend |  item{jQuery} - 图片容器<br>index{Number} - 当前图片索引 | false - 当前图片禁用缩放功能
+   
+   
+  
 
 # 上下布局 
   * 首先引入必要文件  
@@ -587,7 +627,7 @@ closed|-/-|-/-|侧边栏关闭后
   recover | -/- | -/- | 清空表单项, 恢复至初始状态
   backfill | formData{Object}-表单数据<br>beforeHandler{Function}-填充表单项统一前置处理器<br><br>namedHandlers{Object}-填充表单项指定名称处理器, 优先级高于beforeHandle<br>Key : {String} 表单项名称<br>Value : {Function} 处理器. 参数 : {item, value}; <br>返回值:false-终止当前表单回填 | -/- | 表单数据回填
 
-  # 异步加载管理
+# 异步加载管理
 
   用于ajax加载的页面支持浏览器前进/后退功能, 详情查看[示例代码](https://github.com/git8023/Javascript-plugins/tree/master/src/common-utils/ajaxHistoryUtil)
 
