@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+* {padding: 0; margin: 0; box-sizing: border-box;}
+</style>
+  <script type="text/javascript" src="../../jquery-1.10.2.js"></script>
+  <script type="text/javascript" src="../../common-utils/Utils.js"></script>
+  <script type="text/javascript" src="../iscroll-zoom.js"></script>
+  <script type="text/javascript" src="../iscroll-zoom-banner.js"></script>
+</head>
+<body>
+
+  <script type="text/javascript">
+    var srcArr = [
+                  "1.jpg",
+                  "2.jpg",
+                  "3.jpg",
+                 ];
+    IScrollBanner.instance.registerEvents({
+      beforeAppend  : function(item, idx){
+        return 2!=idx;
+      },
+      afterAppend   : function(item, idx){
+        return 1!=idx;
+      }
+    }).init(srcArr);
+  </script>
+</body>
+</html>

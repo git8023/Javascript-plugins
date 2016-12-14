@@ -11,7 +11,7 @@ function Sidebar() {
                     mainTitle   : "main title", // 主标题
                     subTitle    : "sub title",  // 副标题
                     width       : 1,            // 宽度, 0.1~1.0之间时使用百分比, 否则使用像素单位
-                    speed       : 200,          // 动画执行时间 ms
+                    speed       : 300,          // 动画执行时间 ms
 
                     $ctnr       : null,         // 主容器
                     $head       : null,         // 标题容器
